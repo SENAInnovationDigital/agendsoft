@@ -97,7 +97,7 @@ $events = $req->fetchAll();
                             <ul class="nav-list list-inline">
                                 <li><a href="#"><i class="fa fa-user fa-5x" aria-hidden="true"></i>
                                   <i class="fa fa-search fa-2x" aria-hidden="true"></i>
-                                      <span>Buscar</span></a></li>
+                                      <span>Buscarrr</span></a></li>
                                 <li><a href="registropaciente.html"><i class="fa fa-user-plus fa-5x" aria-hidden="true"></i>
                                       <span>Agregar</span></a></li>
                             </ul>
