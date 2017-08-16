@@ -4,8 +4,6 @@
  * (c) 2016 Adam Shaw
  */
 
- 
-
 (function(factory) {
 	if (typeof define === 'function' && define.amd) {
 		define([ 'jquery', 'moment' ], factory);
@@ -14165,7 +14163,7 @@ fcViews.list = {
 	defaults: {
 		buttonText: 'list', // text to display for English
 		listDayFormat: 'LL', // like "January 1, 2016"
-		noEventsMessage: 'No hay citas hoy'
+		noEventsMessage: 'No hay citas para hoy'
 	}
 };
 

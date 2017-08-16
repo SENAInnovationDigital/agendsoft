@@ -1,6 +1,4 @@
-
-
-  <nav class="navbar navbar-default  navbar-fixed-top">
+<nav class="navbar navbar-default  navbar-fixed-top">
     <div class="container">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -11,7 +9,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#"><i class="fa fa-home" aria-hidden="true"></i>
+      <a class="navbar-brand" href="index.php"><i class="fa fa-home" aria-hidden="true"></i>
           Agend Soft</a>
     </div>
 
@@ -25,7 +23,7 @@
 
 
       <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown mega-dropdown active">
+        <li class="dropdown mega-dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users" aria-hidden="true"></i>
               Pacientes<span class="caret"></span></a>
             <div class="dropdown-menu mega-dropdown-menu">
@@ -34,12 +32,15 @@
                         <div class="tab-content">
                           <div class="tab-pane active">
                             <ul class="nav-list list-inline">
-                                <li><a href="#"><i class="fa fa-user fa-5x" aria-hidden="true"></i>
+                                <li id="icon-buscar"><a href="#"><i class="fa fa-user fa-5x" aria-hidden="true"></i>
                                   <i class="fa fa-search fa-2x" aria-hidden="true"></i>
-                                      <span>Buscarrr</span></a></li>
-                                <li><a href="registropaciente.php"><i class="fa fa-user-plus fa-5x" aria-hidden="true"></i>
+                                      <span>Buscar</span></a></li>
+                                <li id="icon-agregar"><a href="registropaciente.php"><i class="fa fa-user-plus fa-5x" aria-hidden="true"></i>
                                       <span>Agregar</span></a></li>
-                            </ul>
+                                <li id="icon-editar"><a href="#"><i class="fa fa-user fa-5x" aria-hidden="true"></i>
+                                  <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+                                      <span>Editar/Borrar</span></a></li>
+                                </ul>
                           </div>
 
                         </div>

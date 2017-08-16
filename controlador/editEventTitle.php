@@ -40,7 +40,7 @@ if (isset($_POST['delete']) && isset($_POST['id'])){
 	}
 
 }
-header('Location: index.php');
+header('Location: ../index.php');
 
 
 ?>
