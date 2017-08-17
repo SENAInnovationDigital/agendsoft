@@ -23,9 +23,11 @@ if (isset($_POST['delete']) && isset($_POST['id'])){
 	$id = $_POST['id'];
 	$title = $_POST['title'];
 	$color = $_POST['color'];
+	$start = $_POST['start'];
+	$end  = $_POST['end'];
 
 
-	$sql = "UPDATE events SET title = '$title', color = '$color' WHERE id = $id ";
+	$sql = "UPDATE events SET title = '$title', color = '$color', start = '$start', end = '$end' WHERE id = $id ";
 
 
 	$query = $bdd->prepare( $sql );

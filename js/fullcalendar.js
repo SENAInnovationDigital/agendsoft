@@ -1178,7 +1178,7 @@ newMomentProto.time = function(time) {
 			time = moment.duration(time);
 		}
 
-		// The day value should cause overflow (so 24 hours becomes 00:00:00 of next day).
+		// The day value should cause overflow (so 24 hours becomes of next day).
 		// Only for Duration times, not Moment times.
 		var dayHours = 0;
 		if (moment.isDuration(time)) {
@@ -12761,9 +12761,9 @@ Calendar.prototype.eventIntersectsRange = function(event, range) {
 
 var BUSINESS_HOUR_EVENT_DEFAULTS = {
 	id: '_fcBusinessHours', // will relate events from different calls to expandEvent
-	start: '09:00',
-	end: '17:00',
-	dow: [ 1, 2, 3, 4, 5 ], // monday - friday
+	start: '08:00',
+	end: '18:00',
+	dow: [ 1, 2, 3, 4, 5, 6 ], // monday - friday
 	rendering: 'inverse-background'
 	// classNames are defined in businessHoursSegClasses
 };

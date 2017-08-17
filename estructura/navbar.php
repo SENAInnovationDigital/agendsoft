@@ -24,6 +24,29 @@
 
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown mega-dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-md" aria-hidden="true"></i>
+               Medicos<span class="caret"></span></a>
+            <div class="dropdown-menu mega-dropdown-menu">
+                    <div class="container-fluid">
+                <!-- Tab panes -->
+                        <div class="tab-content">
+                          <div class="tab-pane active">
+                            <ul class="nav-list list-inline">
+                                <li id="icon-buscar"><a href="#"><img class="img-med" height="80px;"src="img/medicoA.jpg" alt="">
+                                      <span>Medico A</span></a></li>
+                                <li id="icon-agregar"><a href="registropaciente.php"><img class="img-med" height="80px;"src="img/medicoB.jpg" alt="">
+                                      <span>Medico B</span></a></li>
+                                <li id="icon-editar"><a href="#"><img class="img-med" height="80px;"src="img/MedicoC.jpg" alt="">
+                                      <span>Medico C</span></a></li>
+                                </ul>
+                          </div>
+
+                        </div>
+                    </div>
+                  <!-- Nav tabs -->
+             </div>
+       </li>
+        <li class="dropdown mega-dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users" aria-hidden="true"></i>
               Pacientes<span class="caret"></span></a>
             <div class="dropdown-menu mega-dropdown-menu">

@@ -25,15 +25,30 @@
     <script src="js/jquery.js"></script>
 
   </head>
-  <body>
+  <body style="background-image: url('img/salaespera.jpg')">
     <?php
     include("estructura/navbar.php");
     ?>
     <!-- Page Content -->
     <div class="container">
       <div class="row">
-        <div class="col-lg-12 text-center">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
           <img src="img/logo2.png" alt="">
+          <div class="">
+            <div class="row">
+              <div class="col-md-4">
+
+              </div>
+              <div class="col-md-3">
+
+              </div>
+              <div class="col-md-4 etiqueta-doc">
+                <i class="fa fa-user-md fa-3x" aria-hidden="true"></i>
+                <h4>Dr. Juan Roberto Parra Soto</h4>
+              </div>
+
+            </div>
+          </div>
           <div id="calendar" class="col-centered">
           </div>
         </div>
@@ -66,12 +81,12 @@
                   <label for="color" class="col-sm-2 control-label">Motivo</label>
                   <div class="col-sm-10">
                     <select name="color" class="form-control" id="color">
-                      <option style="color:#0071c5;" value="#0071c5">&#9724; Ortodoncia</option>
-                      <option style="color:#40E0D0;" value="#40E0D0">&#9724; Limpieza</option>
-                      <option style="color:#008000;" value="#008000">&#9724; Extracción</option>
-                      <option style="color:#FFD700;" value="#FFD700">&#9724; Endodoncia</option>
-                      <option style="color:#FF8C00;" value="#FF8C00">&#9724; Periodoncia</option>
-                      <option style="color:#FF0000;" value="#FF0000">&#9724; Retiro de brackets</option>
+                      <option style="color:#0071c5;" value="Ortodoncia">&#9724; Ortodoncia</option>
+                      <option style="color:#40E0D0;" value="Limpieza">&#9724; Limpieza</option>
+                      <option style="color:#008000;" value="Extracción">&#9724; Extracción</option>
+                      <option style="color:#FFD700;" value="Endodoncia">&#9724; Endodoncia</option>
+                      <option style="color:#FF8C00;" value="Periodoncia">&#9724; Periodoncia</option>
+                      <option style="color:#FF0000;" value="Retiro de brackets">&#9724; Retiro de brackets</option>
                     </select>
                   </div>
                 </div>
@@ -84,7 +99,7 @@
                 <div class="form-group">
                   <label for="end" class="col-sm-2 control-label">Fecha De Terminación</label>
                   <div class="col-sm-10">
-                    <input type="text" name="end" class="form-control" id="start">
+                    <input type="text" name="end" class="form-control" id="end">
                   </div>
                 </div>
               </div>
@@ -121,14 +136,12 @@
                       <label for="color" class="col-sm-2 control-label">Motivo</label>
                       <div class="col-sm-10">
                         <select name="color" class="form-control" id="color">
-
                           <option style="color:#0071c5;" value="Ortodoncia">&#9724; Ortodoncia</option>
                           <option style="color:#40E0D0;" value="Limpieza">&#9724; Limpieza</option>
                           <option style="color:#008000;" value="Extracción">&#9724; Extracción</option>
                           <option style="color:#FFD700;" value="Endodoncia">&#9724; Endodoncia</option>
                           <option style="color:#FF8C00;" value="Periodoncia">&#9724; Periodoncia</option>
                           <option style="color:#FF0000;" value="Retiro de brackets">&#9724; Retiro de brackets</option>
-
                         </select>
                       </div>
                     </div>
@@ -167,20 +180,6 @@
             </div>
           </div>
 
-          <?php
-          include("estructura/footer.php");
-          ?>
-
-          <!--Links JavaScript -->
-          <script src="js/bootstrap.min.js"></script>
-          <script src='js/moment.min.js'></script>
-          <script src='js/fullcalendar.js'></script>
-          <script src="js/active.js"></script>
-          <script type="text/javascript" src="js/toastr.min.js"></script>
-
-          <script src="js/bootbox.min.js"></script>
-
-
 
       <!--Inicio del codigo funcion del calendario-->
       <script>
@@ -210,10 +209,11 @@
               eventLimit: true, // allow "more" link when too many events
               selectable: true,
               selectHelper: true,
+              businessHours: true,
+              eventOverlap:false,
               select: function(start, end) {
-
-                $('#ModalAdd #start').val(moment(start).format('YYYY-MM-DD HH:mm:ss'));
-                $('#ModalAdd #end').val(moment(end).format('YYYY-MM-DD HH:mm:ss'));
+                $('#ModalAdd #start').val(moment(start).format('YYYY-MM-DD 08:mm:ss'));
+                $('#ModalAdd #end').val(moment(start).format('YYYY-MM-DD 08:05:ss'));
                 $('#ModalAdd').modal('show');
               },
               eventRender: function(event, element) {
@@ -221,8 +221,8 @@
                   $('#ModalEdit #id').val(event.id);
                   $('#ModalEdit #title').val(event.title);
                   $('#ModalEdit #color').val(event.color);
-                  $('#ModalEdit #start').val(event.start);
-                  $('#ModalEdit #end').val(event.end);
+                  $('#ModalEdit #start').val(event.start.format('YYYY-MM-DD HH:mm:ss'));;
+                  $('#ModalEdit #end').val(event.end.format('YYYY-MM-DD HH:mm:ss'));
                   $('#ModalEdit').modal('show');
                 });
               },
@@ -266,7 +266,37 @@
                     title: '<?php echo $event['title']; ?>',
                     start: '<?php echo $start; ?>',
                     end: '<?php echo $end; ?>',
-                    color: '<?php echo $event['color']; ?>',
+                    color: '<?php
+                                $colo=  $event['color'];
+                                if ($colo==='Ortodoncia')
+                                {
+                                   echo '#0071c5';
+                                }
+                                else if($colo === 'Limpieza')
+                                {
+                                  echo '#40E0D0';
+                                }
+                                else if($colo === 'Extracción')
+                                {
+                                  echo '#008000';
+                                }
+                                else if($colo === 'Endodoncia')
+                                {
+                                  echo '#FFD700';
+                                }
+                                else if($colo === 'Periodoncia')
+                                {
+                                  echo '#FF8C00';
+                                }
+                                else if($colo === 'Retio de brackets')
+                                {
+                                  echo '#800000';
+                                }
+                                else
+                                {
+                                    echo $event['color'];
+                                }
+                            ?>',
                   },
                   <?php endforeach;
                   ?>
@@ -311,5 +341,15 @@
         </script>
         <!--Finalización del codigo funcion del calendario-->
 
+          <?php
+          include("estructura/footer.php");
+          ?>
+          <!--Links JavaScript -->
+          <script src="js/bootstrap.min.js"></script>
+          <script src='js/moment.min.js'></script>
+          <script src='js/fullcalendar.js'></script>
+          <script src="js/active.js"></script>
+          <script type="text/javascript" src="js/toastr.min.js"></script>
+          <script src="js/bootbox.min.js"></script>
     </body>
   </html>
