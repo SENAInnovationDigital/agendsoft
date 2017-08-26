@@ -75,8 +75,11 @@
 
                     <div class="form-group">
                         <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon fa-2x "></i></span>
-                        <div class="col-md-8">
-                            <input id="phone" name="phone" type="text" placeholder="Telefono" class="form-control">
+                        <div class="col-md-4">
+                            <input id="tel1" name="tel1" type="text" placeholder="Número Teléfonico" class="form-control">
+                        </div>
+                        <div class="col-md-4">
+                            <input id="tel2" name="tel2" type="text" placeholder="Número Teléfonico alternativo" class="form-control">
                         </div>
                     </div>
 

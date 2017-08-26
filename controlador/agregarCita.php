@@ -3,16 +3,18 @@
 // Connexion à la base de données
 require_once('bdd.php');
 //echo $_POST['title'];
-if (isset($_POST['title']) && isset($_POST['start']) && isset($_POST['end']) && isset($_POST['color'])){
+if (isset($_POST['start']) && isset($_POST['end']) && isset($_POST['motivo'])){
 
-	$title = $_POST['title'];
-	$codigo = $_POST['codigo'];
+	$cedulaPac = $_POST['cedulaPac'];
+	$idmedico = '12345';
+	$idsecretaria = '112233';
+	$idmotivo = $_POST['motivo'];
 	$start = $_POST['start'];
 	$end = $_POST['end'];
-	$color = $_POST['color'];
-	$secretaria = 'jhoana';
 
-	$sql = "INSERT INTO events(idPaciente, title, start, end, color, secretaria ) values ('$codigo', '$title', '$start', '$end', '$color','$secretaria')";
+
+	$sql = "INSERT INTO cita (docPac_cit, docMed_cit, docSec_cit, id_trata, fechaIni_cit, fechaFin_cit)
+					values ('$cedulaPac', '$idmedico', '$idsecretaria', '$idmotivo', '$start', '$end')";
 	//$req = $bdd->prepare($sql);
 	//$req->execute();
 

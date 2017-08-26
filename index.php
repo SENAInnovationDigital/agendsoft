@@ -1,6 +1,8 @@
   <?php
   require_once('controlador/bdd.php');
-  $sql = "SELECT id, title, start, end, color FROM events ";
+  $sql = "SELECT c.id_cit, c.fechaIni_cit, c.fechaFin_cit, c.id_trata, c.docPac_cit, p.nombres_pac
+          FROM cita c, paciente p
+          WHERE c.docPac_cit = p.doc_pac";
   $req = $bdd->prepare($sql);
   $req->execute();
   $events = $req->fetchAll();
@@ -25,7 +27,7 @@
     <script src="js/jquery.js"></script>
 
   </head>
-  <body style="background-image: url('img/salaespera.jpg')">
+  <body>
     <?php
     include("estructura/navbar.php");
     ?>
@@ -59,7 +61,7 @@
       <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <form class="form-horizontal" method="POST" action="controlador/addEvent.php">
+            <form class="form-horizontal" method="POST" action="controlador/agregarCita.php">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Nueva Cita</h4>
@@ -68,7 +70,7 @@
                 <div class="form-group">
                   <label for="codigo" class="col-sm-2 control-label">Codigo</label>
                   <div class="col-sm-10">
-                    <input type="text" name="codigo" class="form-control" id="codigo" placeholder="Codigo">
+                    <input type="text" name="cedulaPac" class="form-control" id="cedulaPac" placeholder="Cedula">
                   </div>
                 </div>
                 <div class="form-group">
@@ -80,13 +82,13 @@
                 <div class="form-group">
                   <label for="color" class="col-sm-2 control-label">Motivo</label>
                   <div class="col-sm-10">
-                    <select name="color" class="form-control" id="color">
-                      <option style="color:#0071c5;" value="Ortodoncia">&#9724; Ortodoncia</option>
-                      <option style="color:#40E0D0;" value="Limpieza">&#9724; Limpieza</option>
-                      <option style="color:#008000;" value="Extracción">&#9724; Extracción</option>
-                      <option style="color:#FFD700;" value="Endodoncia">&#9724; Endodoncia</option>
-                      <option style="color:#FF8C00;" value="Periodoncia">&#9724; Periodoncia</option>
-                      <option style="color:#FF0000;" value="Retiro de brackets">&#9724; Retiro de brackets</option>
+                    <select name="motivo" class="form-control" id="motivo">
+                      <option style="color:#0071c5;" value="#0071c5">&#9724; Ortodoncia</option>
+                      <option style="color:#40E0D0;" value="#40E0D0">&#9724; Limpieza</option>
+                      <option style="color:#008000;" value="#008000">&#9724; Extracción</option>
+                      <option style="color:#FFD700;" value="#FFD700">&#9724; Endodoncia</option>
+                      <option style="color:#FF8C00;" value="#FF8C00">&#9724; Periodoncia</option>
+                      <option style="color:#FF0000;" value="#FF0000">&#9724; Retiro de brackets</option>
                     </select>
                   </div>
                 </div>
@@ -135,13 +137,13 @@
                     <div class="form-group">
                       <label for="color" class="col-sm-2 control-label">Motivo</label>
                       <div class="col-sm-10">
-                        <select name="color" class="form-control" id="color">
-                          <option style="color:#0071c5;" value="Ortodoncia">&#9724; Ortodoncia</option>
-                          <option style="color:#40E0D0;" value="Limpieza">&#9724; Limpieza</option>
-                          <option style="color:#008000;" value="Extracción">&#9724; Extracción</option>
-                          <option style="color:#FFD700;" value="Endodoncia">&#9724; Endodoncia</option>
-                          <option style="color:#FF8C00;" value="Periodoncia">&#9724; Periodoncia</option>
-                          <option style="color:#FF0000;" value="Retiro de brackets">&#9724; Retiro de brackets</option>
+                        <select name="motivo" class="form-control" id="color">
+                          <option style="color:#0071c5;" value="#0071c5">&#9724; Ortodoncia</option>
+                          <option style="color:#40E0D0;" value="#40E0D0">&#9724; Limpieza</option>
+                          <option style="color:#008000;" value="#008000">&#9724; Extracción</option>
+                          <option style="color:#FFD700;" value="#FFD700">&#9724; Endodoncia</option>
+                          <option style="color:#FF8C00;" value="#FF8C00">&#9724; Periodoncia</option>
+                          <option style="color:#FF0000;" value="#FF0000">&#9724; Retiro de brackets</option>
                         </select>
                       </div>
                     </div>
@@ -163,16 +165,16 @@
                     <div class="form-group">
                       <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
-                          <label class="text-danger"><input type="checkbox"  name="delete"><i class="fa fa-trash" aria-hidden="true"></i>
+                          <label class="text-danger"><input type="checkbox" name="eliminar" id="eliminar"><i class="fa fa-trash" aria-hidden="true"></i>
                             Eliminar Cita</label>
                           </div>
                         </div>
                       </div>
-                      <input type="hidden" name="id" class="form-control" id="id">
+                      <input type="hidden" name="id_cit" class="form-control" id="id_cit">
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i> Cerrar</button>
-                      <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar Cambios</button>
+                      <button type="submit" class="btn btn-primary" id="guardaP"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar Cambios</button>
                     </div>
                   </form>
                 </div>
@@ -218,7 +220,7 @@
               },
               eventRender: function(event, element) {
                 element.bind('dblclick', function() {
-                  $('#ModalEdit #id').val(event.id);
+                  $('#ModalEdit #id_cit').val(event.id_cit);
                   $('#ModalEdit #title').val(event.title);
                   $('#ModalEdit #color').val(event.color);
                   $('#ModalEdit #start').val(event.start.format('YYYY-MM-DD HH:mm:ss'));;
@@ -248,63 +250,33 @@
               events: [
                 <?php foreach($events as $event):
 
-                  $start = explode(" ", $event['start']);
-                  $end = explode(" ", $event['end']);
+                  $start = explode(" ", $event['fechaIni_cit']);
+                  $end = explode(" ", $event['fechaFin_cit']);
                   if($start[1] == '00:00:00'){
                     $start = $start[0];
                   }else{
-                    $start = $event['start'];
+                    $start = $event['fechaIni_cit'];
                   }
                   if($end[1] == '00:00:00'){
                     $end = $end[0];
                   }else{
-                    $end = $event['end'];
+                    $end = $event['fechaFin_cit'];
                   }
                   ?>
                   {
-                    id: '<?php echo $event['id']; ?>',
-                    title: '<?php echo $event['title']; ?>',
+                    id_cit: '<?php echo $event['id_cit']; ?>',
+                    title: '<?php echo $event['nombres_pac']; ?>',
                     start: '<?php echo $start; ?>',
                     end: '<?php echo $end; ?>',
-                    color: '<?php
-                                $colo=  $event['color'];
-                                if ($colo==='Ortodoncia')
-                                {
-                                   echo '#0071c5';
-                                }
-                                else if($colo === 'Limpieza')
-                                {
-                                  echo '#40E0D0';
-                                }
-                                else if($colo === 'Extracción')
-                                {
-                                  echo '#008000';
-                                }
-                                else if($colo === 'Endodoncia')
-                                {
-                                  echo '#FFD700';
-                                }
-                                else if($colo === 'Periodoncia')
-                                {
-                                  echo '#FF8C00';
-                                }
-                                else if($colo === 'Retio de brackets')
-                                {
-                                  echo '#800000';
-                                }
-                                else
-                                {
-                                    echo $event['color'];
-                                }
-                            ?>',
+                    color: '<?php echo $event['id_trata']; ?>',
                   },
                   <?php endforeach;
                   ?>
                 ]
               });
 
-              function edit(event){
-
+              function edit(event)
+              {
                 start = event.start.format('YYYY-MM-DD HH:mm:ss');
                 if(event.end){
                   end = event.end.format('YYYY-MM-DD HH:mm:ss');
@@ -312,17 +284,17 @@
                   end = start;
                 }
 
-                id =  event.id;
+                id_cit =  event.id_cit;
 
                 Event = [];
-                Event[0] = id;
+                Event[0] = id_cit;
                 Event[1] = start;
                 Event[2] = end;
                 var conf = 1;
                 var conf2 = 2;
 
                 $.ajax({
-                  url: 'controlador/editEventDate.php',
+                  url: 'controlador/editarCita.php',
                   type: "POST",
                   data: {Event:Event},
                   success: function(rep) {
@@ -351,5 +323,6 @@
           <script src="js/active.js"></script>
           <script type="text/javascript" src="js/toastr.min.js"></script>
           <script src="js/bootbox.min.js"></script>
+          <script type="text/javascript" src="js/color.js"></script>
     </body>
   </html>
