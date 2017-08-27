@@ -23,11 +23,15 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet" >
     <link rel="stylesheet" href="css/toastr.min.css">
+
+
     <!--Enlace JQuery-->
-    <script src="js/jquery.js"></script>
+    <script src="js/libraries/jquery-1.12.1.min.js"></script>
 
   </head>
   <body>
+    <div class="fakeloader"></div>
+
     <?php
     include("estructura/navbar.php");
     ?>
@@ -70,13 +74,14 @@
                 <div class="form-group">
                   <label for="codigo" class="col-sm-2 control-label">Codigo</label>
                   <div class="col-sm-10">
-                    <input type="text" name="cedulaPac" class="form-control" id="cedulaPac" placeholder="Cedula">
+                    <input type="text" name="cedulaPac" class="form-control" id="cedulaPac" placeholder="Cedula" autofocus>
                   </div>
                 </div>
+
                 <div class="form-group">
                   <label for="title" class="col-sm-2 control-label">Paciente</label>
                   <div class="col-sm-10">
-                    <input type="text" name="title" class="form-control" id="title" placeholder="Nombre Del Paciente">
+                    <input type="text" name="cita_pac" class="form-control" id="cita_pac" placeholder="Nombre Del Paciente" readonly>
                   </div>
                 </div>
                 <div class="form-group">
@@ -106,6 +111,7 @@
                 </div>
               </div>
               <div class="modal-footer">
+                <input type="text" name="" id="validacionPaciente">
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i>
                   Cerrar</button>
                   <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>
@@ -115,6 +121,10 @@
               </div>
             </div>
           </div>
+
+
+
+
 
 
           <!-- Modal -->
@@ -131,7 +141,7 @@
                     <div class="form-group">
                       <label for="title" class="col-sm-2 control-label">Paciente</label>
                       <div class="col-sm-10">
-                        <input type="text" name="title" class="form-control" id="title" placeholder="Title">
+                        <input type="text" name="title" class="form-control" id="title" placeholder="Title" readonly>
                       </div>
                     </div>
                     <div class="form-group">
@@ -297,12 +307,35 @@
                   url: 'controlador/editarCita.php',
                   type: "POST",
                   data: {Event:Event},
+
+                  beforeSend: function(){
+                    $.loadingBlockShow({
+                      style: {
+                        position: 'fixed',
+                        width: '100%',
+                        height: '100%',
+                        background: 'rgba(255, 255, 255, .5)',
+                        left: 0,
+                        top: 0,
+                        zIndex: 10000
+                      }
+                    });
+                  },
                   success: function(rep) {
                     if(rep == 'OK'){
-                      toastr.info("La cita fué actualizada", "Guardado");
+                      $.loadingBlockHide();
+                      toastr.info("La cita fué actualizada", "Actualizado");
                     }else{
-                      alert('No se pudo guardar, revisa la conexión.');
+                      $.loadingBlockHide();
+                      toastr.error("Ocurrió un error", "Error");
+                      setTimeout('document.location.reload()',1500);
                     }
+                  },
+                  error: function(){
+                      $.loadingBlockHide();
+                      location.reload();
+                      toastr.error("Ocurrió un error", "Error");
+                      setTimeout('document.location.reload()',1500);
                   }
                 });
 
@@ -317,12 +350,15 @@
           include("estructura/footer.php");
           ?>
           <!--Links JavaScript -->
-          <script src="js/bootstrap.min.js"></script>
-          <script src='js/moment.min.js'></script>
-          <script src='js/fullcalendar.js'></script>
+          <script src="js/libraries/bootstrap.min.js"></script>
+          <script src='js/libraries/moment.min.js'></script>
+          <script src='js/libraries/fullcalendar.js'></script>
           <script src="js/active.js"></script>
-          <script type="text/javascript" src="js/toastr.min.js"></script>
-          <script src="js/bootbox.min.js"></script>
+          <script type="text/javascript" src="js/libraries/toastr.min.js"></script>
+          <script src="js/libraries/bootbox.min.js"></script>
           <script type="text/javascript" src="js/color.js"></script>
+          <script src="js/libraries/jquery.loading.block.js"></script>
+          <script src="js/ajaxnombrepaciente.js"></script>
+
     </body>
   </html>

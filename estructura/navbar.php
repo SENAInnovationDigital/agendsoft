@@ -32,11 +32,11 @@
                         <div class="tab-content">
                           <div class="tab-pane active">
                             <ul class="nav-list list-inline">
-                                <li id="icon-buscar"><a href="#"><img class="img-med" height="80px;"src="img/medicoA.jpg" alt="">
+                                <li id="icon-busca"><a href="#"><img class="img-med" height="80px;"src="img/medicoA.jpg" alt="">
                                       <span>Medico A</span></a></li>
-                                <li id="icon-agregar"><a href="registropaciente.php"><img class="img-med" height="80px;"src="img/medicoB.jpg" alt="">
+                                <li id="icon-agrega"><a href="registropaciente.php"><img class="img-med" height="80px;"src="img/medicoB.jpg" alt="">
                                       <span>Medico B</span></a></li>
-                                <li id="icon-editar"><a href="#"><img class="img-med" height="80px;"src="img/MedicoC.jpg" alt="">
+                                <li id="icon-editr"><a href="#"><img class="img-med" height="80px;"src="img/MedicoC.jpg" alt="">
                                       <span>Medico C</span></a></li>
                                 </ul>
                           </div>

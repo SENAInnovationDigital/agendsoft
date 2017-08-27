@@ -1,7 +1,6 @@
 <?php
-
 // Connexion à la base de données
-require_once('bdd.php');
+include('bdd.php');
 //echo $_POST['title'];
 if (isset($_POST['start']) && isset($_POST['end']) && isset($_POST['motivo'])){
 
