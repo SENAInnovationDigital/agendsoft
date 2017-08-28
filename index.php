@@ -1,6 +1,7 @@
   <?php
   require_once('controlador/bdd.php');
   include('controlador/tratamientos.php');
+    include('controlador/tratamientos2.php');
   $sql = "SELECT c.id_cit, c.fechaIni_cit, c.fechaFin_cit, c.id_trata, c.docPac_cit, p.nombres_pac
           FROM cita c, paciente p
           WHERE c.docPac_cit = p.doc_pac";
@@ -75,7 +76,7 @@
                 <div class="form-group">
                   <label for="codigo" class="col-sm-2 control-label">Codigo</label>
                   <div class="col-sm-10">
-                    <input type="text" name="cedulaPac" class="form-control" id="cedulaPac" placeholder="Cedula" autofocus>
+                    <input type="text" name="cedulaPac" class="form-control" id="cedulaPac" placeholder="Cedula" autofocus autocomplete="off">
                   </div>
                 </div>
 
@@ -126,8 +127,6 @@
 
 
 
-
-
           <!-- Modal -->
           <div class="modal fade" id="ModalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -148,13 +147,13 @@
                     <div class="form-group">
                       <label for="color" class="col-sm-2 control-label">Motivo</label>
                       <div class="col-sm-10">
-                        <select name="motivo" class="form-control" id="color">
-                          <option style="color:#0071c5;" value="#0071c5">&#9724; Ortodoncia</option>
-                          <option style="color:#40E0D0;" value="#40E0D0">&#9724; Limpieza</option>
-                          <option style="color:#008000;" value="#008000">&#9724; Extracción</option>
-                          <option style="color:#FFD700;" value="#FFD700">&#9724; Endodoncia</option>
-                          <option style="color:#FF8C00;" value="#FF8C00">&#9724; Periodoncia</option>
-                          <option style="color:#FF0000;" value="#FF0000">&#9724; Retiro de brackets</option>
+                        <select name="motivo" class="form-control" id="motivo">
+                          <?php
+                            while ($tratamientos2 = mysqli_fetch_assoc($consultaTratamientos2))
+                             {
+                              echo '<option style="color:'.$tratamientos2['id_trata'].';" value="'.$tratamientos2['id_trata'].'">&#9724;'.$tratamientos2['descripcion_tra'].'</option>';
+                              }
+                           ?>
                         </select>
                       </div>
                     </div>
@@ -176,8 +175,8 @@
                     <div class="form-group">
                       <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
-                          <label class="text-danger"><input type="checkbox" name="eliminar" id="eliminar"><i class="fa fa-trash" aria-hidden="true"></i>
-                            Eliminar Cita</label>
+                          <button type="button"  class="btn btn-default" data-dismiss="modal" data-placement="top" id="delete_Evento"><i class="fa fa-ban" aria-hidden="true" ></i> ELIMINAR</button>
+                      <!--    <button type="button" class="btn btn-default" data-dismiss="modal" id="delete_Evento"><i class="fa fa-ban" aria-hidden="true" ></i> ELIMINAR</button>-->
                           </div>
                         </div>
                       </div>
@@ -227,9 +226,13 @@
               select: function(start, end) {
                 $('#ModalAdd #start').val(moment(start).format('YYYY-MM-DD 08:mm:ss'));
                 $('#ModalAdd #end').val(moment(start).format('YYYY-MM-DD 08:05:ss'));
+                $('#ModalAdd #cedulaPac').val("");
+                $('#ModalAdd #validacionPaciente').val("");
+                $('#ModalAdd #cita_pac').val("");
                 $('#ModalAdd').modal('show');
               },
-              eventRender: function(event, element) {
+
+            /*  eventRender: function(event, element) {
                 element.bind('dblclick', function() {
                   $('#ModalEdit #id_cit').val(event.id_cit);
                   $('#ModalEdit #title').val(event.title);
@@ -238,7 +241,7 @@
                   $('#ModalEdit #end').val(event.end.format('YYYY-MM-DD HH:mm:ss'));
                   $('#ModalEdit').modal('show');
                 });
-              },
+              },*/
 
               eventDrop: function(event, delta, revertFunc) { // si changement de position
                 bootbox.confirm("¿Confirmar cambios?", function(result){
@@ -247,8 +250,47 @@
                     revertFunc();
                   }
                 });
-
               },
+
+              eventClick: function( event,jsEvent,view) {
+                $('#ModalEdit #id_cit').val(event.id_cit);
+                $('#ModalEdit #title').val(event.title);
+                $('#ModalEdit #color').val(event.color);
+                $('#ModalEdit #start').val(event.start.format('YYYY-MM-DD HH:mm:ss'));;
+                $('#ModalEdit #end').val(event.end.format('YYYY-MM-DD HH:mm:ss'));
+                $('#ModalEdit').modal('show');
+
+                  $('#delete_Evento').click(function(){
+
+
+                    bootbox.confirm("¿Confirma que desea ELIMINAR la cita de "+event.title+"?", function(result){
+                      if (result)
+                      {
+                        var btneliminar= "OK";
+                        datos = {'id_cit':event.id_cit,'btneliminar':btneliminar}
+                          $.ajax({
+                             url: 'controlador/editEventTitle.php',
+                             data: datos,
+                             type: "POST",
+
+                             success: function () {
+                             $('#calendar').fullCalendar('removeEvents',  event._id);
+                             toastr.error("la cita de "+event.title+" ha sido eliminada", "Eliminacion!!!");
+                             }
+                           });
+
+                      }
+                          else{
+                          toastr.info("la cita de "+event.title+" NO se elimina", "NO SE ELIMINO!!!");
+                          }
+                        });
+
+
+
+                  });
+             },
+
+
               eventResize: function(event,dayDelta,minuteDelta,revertFunc) { // si changement de longueur
                 bootbox.confirm("¿Confirmar cambios?", function(result){
                   if (result){edit(event);}
@@ -360,6 +402,7 @@
           <script type="text/javascript" src="js/color.js"></script>
           <script src="js/libraries/jquery.loading.block.js"></script>
           <script src="js/ajaxnombrepaciente.js"></script>
+          <script type="text/javascript" src="js/libraries/bootstrap-confirmation.js"></script>
 
     </body>
   </html>

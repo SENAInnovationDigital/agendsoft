@@ -1,6 +1,6 @@
 <?php
 require_once('bdd.php');
-if (isset($_POST['eliminar']) && isset($_POST['id_cit'])){
+if (isset($_POST['id_cit']) && isset($_POST['btneliminar'])){
 
 	$id_cit = $_POST['id_cit'];
 
@@ -40,7 +40,7 @@ if (isset($_POST['eliminar']) && isset($_POST['id_cit'])){
 	}
 
 }
-header('Location: ../index.php');
+//header('Location: ../index.php');
 
 
 ?>
