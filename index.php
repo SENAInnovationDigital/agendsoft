@@ -1,5 +1,6 @@
   <?php
   require_once('controlador/bdd.php');
+  include('controlador/tratamientos.php');
   $sql = "SELECT c.id_cit, c.fechaIni_cit, c.fechaFin_cit, c.id_trata, c.docPac_cit, p.nombres_pac
           FROM cita c, paciente p
           WHERE c.docPac_cit = p.doc_pac";
@@ -88,12 +89,12 @@
                   <label for="color" class="col-sm-2 control-label">Motivo</label>
                   <div class="col-sm-10">
                     <select name="motivo" class="form-control" id="motivo">
-                      <option style="color:#0071c5;" value="#0071c5">&#9724; Ortodoncia</option>
-                      <option style="color:#40E0D0;" value="#40E0D0">&#9724; Limpieza</option>
-                      <option style="color:#008000;" value="#008000">&#9724; Extracción</option>
-                      <option style="color:#FFD700;" value="#FFD700">&#9724; Endodoncia</option>
-                      <option style="color:#FF8C00;" value="#FF8C00">&#9724; Periodoncia</option>
-                      <option style="color:#FF0000;" value="#FF0000">&#9724; Retiro de brackets</option>
+                      <?php
+                        while ($tratamientos = mysqli_fetch_assoc($consultaTratamientos))
+                         {
+                          echo '<option style="color:'.$tratamientos['id_trata'].';" value="'.$tratamientos['id_trata'].'">&#9724;'.$tratamientos['descripcion_tra'].'</option>';
+                          }
+                       ?>
                     </select>
                   </div>
                 </div>
@@ -111,7 +112,7 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <input type="text" name="" id="validacionPaciente">
+                <input type="text" name="" id="validacionPaciente" readonly>
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i>
                   Cerrar</button>
                   <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>
