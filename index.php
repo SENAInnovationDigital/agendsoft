@@ -261,8 +261,6 @@
                 $('#ModalEdit').modal('show');
 
                   $('#delete_Evento').click(function(){
-
-
                     bootbox.confirm("¿Confirma que desea ELIMINAR la cita de "+event.title+"?", function(result){
                       if (result)
                       {
@@ -278,15 +276,15 @@
                              toastr.error("la cita de "+event.title+" ha sido eliminada", "Eliminacion!!!");
                              }
                            });
+                           $('#delete_Evento').off("click");
+                         }
 
-                      }
-                          else{
+                          if(!result)
+                          {
                           toastr.info("la cita de "+event.title+" NO se elimina", "NO SE ELIMINO!!!");
+                          $('#delete_Evento').off("click");
                           }
                         });
-
-
-
                   });
              },
 
