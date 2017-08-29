@@ -17,5 +17,17 @@
   						else
   						  $("#validacionPaciente").val("");
 
+              if(data.validacion == "Paciente no registrado"){
+                $("#validacionPaciente").removeClass("reg-estado");
+                $("#validacionPaciente").addClass("noreg-estado");
+              }
+              else if (data.validacion == "Ingresa el documento"){
+                $("#validacionPaciente").removeClass("noreg-estado");
+                $("#validacionPaciente").addClass("ing-estado");
+              }
+              else if (data.validacion == "Paciente registrado"){
+                $("#validacionPaciente").addClass("reg-estado");
+              }
+
           },"json");
       });

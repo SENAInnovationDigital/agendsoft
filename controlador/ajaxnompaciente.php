@@ -17,7 +17,7 @@ $id_pac = $_POST['id_pac'];
      $validacion = "Paciente registrado";
    }
    else{
-   $validacion = "Ingresa la cedula";
+   $validacion = "Ingresa el documento";
  }
    $codigo =  $id;
 

@@ -2,9 +2,9 @@
   require_once('controlador/bdd.php');
   include('controlador/tratamientos.php');
     include('controlador/tratamientos2.php');
-  $sql = "SELECT c.id_cit, c.fechaIni_cit, c.fechaFin_cit, c.id_trata, c.docPac_cit, p.nombres_pac
-          FROM cita c, paciente p
-          WHERE c.docPac_cit = p.doc_pac";
+    $sql = "SELECT c.id_cit, c.fechaIni_cit, c.fechaFin_cit, c.id_trata, c.docPac_cit, p.nombres_pac, p.apellidos_pac
+            FROM cita c, paciente p
+            WHERE c.docPac_cit = p.doc_pac";
   $req = $bdd->prepare($sql);
   $req->execute();
   $events = $req->fetchAll();
@@ -113,7 +113,7 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <input type="text" name="" id="validacionPaciente" readonly>
+                <input type="text" name="form-control" id="validacionPaciente" readonly>
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i>
                   Cerrar</button>
                   <button type="button" id="btn-save" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>
@@ -175,8 +175,7 @@
                     <div class="form-group">
                       <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
-                          <button type="button"  class="btn btn-default" data-dismiss="modal" data-placement="top" id="delete_Evento"><i class="fa fa-ban" aria-hidden="true" ></i> ELIMINAR</button>
-                      <!--    <button type="button" class="btn btn-default" data-dismiss="modal" id="delete_Evento"><i class="fa fa-ban" aria-hidden="true" ></i> ELIMINAR</button>-->
+                            <button type="button"  class="btn btn-danger" data-dismiss="modal" data-placement="top" id="delete_Evento"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</button>
                           </div>
                         </div>
                       </div>
@@ -224,8 +223,9 @@
               businessHours: true,
               eventOverlap:false,
               select: function(start, end) {
+                end = start;
                 $('#ModalAdd #start').val(moment(start).format('YYYY-MM-DD 08:mm:ss'));
-                $('#ModalAdd #end').val(moment(start).format('YYYY-MM-DD 08:05:ss'));
+                $('#ModalAdd #end').val(moment(end).format('YYYY-MM-DD 08:30:ss'));
                 $('#ModalAdd #cedulaPac').val("");
                 $('#ModalAdd #validacionPaciente').val("");
                 $('#ModalAdd #cita_pac').val("");
@@ -261,8 +261,8 @@
                 $('#delete_Evento').off("click");
                 $('#ModalEdit #id_cit').val(event.id_cit);
                 $('#ModalEdit #title').val(event.title);
-                $('#ModalEdit #color').val(event.color);
-                $('#ModalEdit #start').val(event.start.format('YYYY-MM-DD HH:mm:ss'));;
+                $('#ModalEdit #motivo').val(event.color);
+                $('#ModalEdit #start').val(event.start.format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalEdit #end').val(event.end.format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalEdit').modal('show');
 
@@ -295,7 +295,7 @@
                              success: function () {
                              $('#calendar').fullCalendar('removeEvents',  event._id);
                                $.loadingBlockHide();
-                             toastr.error("la cita de "+event.title+" ha sido eliminada", "Eliminacion!!!");
+                             toastr.error("la cita de "+event.title+" ha sido eliminada", "Eliminación exitosa!");
                              }
                            });
                            $('#delete_Evento').off("click");
@@ -303,7 +303,7 @@
 
                           if(!result)
                           {
-                          toastr.info("la cita de "+event.title+" NO se elimina", "NO SE ELIMINO!!!");
+                          toastr.info("la cita de "+event.title+" No fué eliminada", "No se eliminó!");
                           $('#delete_Evento').off("click");
                           }
                         });
@@ -311,13 +311,27 @@
 
                     //-----GUARDADO  EDITADO eventClick
                     $('#guardaP').click(function(){
+                      ini = $('#ModalEdit #start').val();
+                      fin= $('#ModalEdit #end').val();
+
+                      if(ini > fin ){
+                        ini = $('#ModalEdit #start').val();
+                        toastr.error("La fecha de inicio: "+$('#ModalEdit #start').val()+" no debe ser mayor a la de finalización.", "Horario incorrecto");
+                      }
+                      else if(ini == fin){
+                        toastr.error("La fecha de inicio: "+$('#ModalEdit #start').val()+" no debe ser igual a la de finalización.", "Horario incorrecto");
+                      }
+                      else{
                       bootbox.confirm("¿Confirma que desea EDITAR la cita de "+event.title+"?", function(result){
                         if (result)
                         {
-                    $('#guardaP').off("click");
-                      datos2 = {'id_cit':event.id_cit,'color':$('#ModalEdit #motivo').val(),'start':$('#ModalEdit #start').val(),'end':$('#ModalEdit #end').val()};//,, 'end':event.end.format('YYYY-MM-DD HH:mm:ss')d}
-                      var datos3=[
-                        {id_cit:event.id_cit,title:$('#ModalEdit #title').val(), color:$('#ModalEdit #motivo').val(),start:$('#ModalEdit #start').val(),end:$('#ModalEdit #end').val()}//,, 'end':event.end.format('YYYY-MM-DD HH:mm:ss')d}
+                          $('#guardaP').off("click");
+                              datos2 = {'id_cit':event.id_cit,'color':$('#ModalEdit #motivo').val(),
+                              'start':$('#ModalEdit #start').val(),'end':$('#ModalEdit #end').val()};//,, 'end':event.end.format('YYYY-MM-DD HH:mm:ss')d}
+                              var datos3=[
+                              {id_cit:event.id_cit,title:$('#ModalEdit #title').val(),
+                              color:$('#ModalEdit #motivo').val(),start:$('#ModalEdit #start').val(),
+                              end:$('#ModalEdit #end').val()}//,, 'end':event.end.format('YYYY-MM-DD HH:mm:ss')d}
                       ];
                         $.ajax({
                            url: 'controlador/editEventTitle.php',
@@ -342,21 +356,20 @@
                             $('#calendar').fullCalendar('removeEvents',event._id);
                             $('#calendar').fullCalendar('addEventSource',  datos3);
                               $.loadingBlockHide();
-                            toastr.info("la cita de "+event.title+" ha sido editada", "Edicion!!!");
+                            toastr.info("la cita de "+event.title+" ha sido editada", "Edición exitosa!");
                           }
                       });
                       $('#ModalEdit').modal('hide');
                       $('#guardaP').off("click");
                     }
                     else {
-                      alert("no edito nada");
+                      toastr.info("la cita de "+event.title+" no ha sido editada", "No se editó");
                       $('#ModalEdit').modal('hide');
                       $('#guardaP').off("click");
                     }
                   });
-
-                      });
-
+                }
+            });
 
                       //CIERRE del modal eventClick
                       $('#cerrarM').click(function(){
@@ -373,8 +386,7 @@
                         minuteDelta();
                       }
                     });
-
-              },
+                  },
 
               events: [
                 <?php foreach($events as $event):
@@ -394,7 +406,7 @@
                   ?>
                   {
                     id_cit: '<?php echo $event['id_cit']; ?>',
-                    title: '<?php echo $event['nombres_pac']; ?>',
+                    title: '<?php echo $event['nombres_pac'].' '.$event['apellidos_pac']; ?>',
                     start: '<?php echo $start; ?>',
                     end: '<?php echo $end; ?>',
                     color: '<?php echo $event['id_trata']; ?>',
@@ -408,60 +420,74 @@
          // Guardar nueva cita
               $("#btn-save").click(function(event){
 
-                              cedulaPac = $('#ModalAdd #cedulaPac').val();
-                              motivo =   $('#ModalAdd #motivo').val();
-                              start = $('#ModalAdd #start').val();
-                              end = $('#ModalAdd #end').val();
-                              title = $('#ModalAdd #cita_pac').val();
+              cedulaPac = $('#ModalAdd #cedulaPac').val();
+              motivo =   $('#ModalAdd #motivo').val();
+              start = $('#ModalAdd #start').val();
+              end = $('#ModalAdd #end').val();
+              title = $('#ModalAdd #cita_pac').val();
+              estado = $('#validacionPaciente').val();
 
+              event.color = motivo;
+              event.start = start;
+              event.end = end;
+              event.title = title;
 
-                              event.color = motivo;
-                              event.start = start;
-                              event.end = end;
-                              event.title = title;
+              if(cedulaPac == ""){
+                $('#ModalAdd #cedulaPac').focus();
+                $('#ModalAdd #cedulaPac').addClass('red-form');
+                }
+              else if(estado == "Paciente no registrado"){
+                toastr.error("Paciente no registrado", "Documento inválido!");
+              }
+              else if(start > end ){
+                toastr.error("La fecha de inicio: "+$('#ModalAdd #start').val()+" no debe ser mayor a la de finalización.", "Horario incorrecto");
+              }
+              else if(start == end){
+                toastr.error("La fecha de inicio: "+$('#ModalAdd #start').val()+" no debe ser igual a la de finalización.", "Horario incorrecto");
+              }
 
-                              datos = {'cedulaPac': cedulaPac, 'motivo':motivo, 'start':start, 'end':end}
+              else{
+              datos = {'cedulaPac': cedulaPac, 'motivo':motivo, 'start':start, 'end':end}
 
-                              $.ajax({
-                                url: 'controlador/agregarCita.php',
-                                type: "POST",
-                                data: datos,
+              $.ajax({
+                url: 'controlador/agregarCita.php',
+                type: "POST",
+                data: datos,
 
-                                beforeSend: function(){
-                                  $.loadingBlockShow({
-                                    style: {
-                                      position: 'fixed',
-                                      width: '100%',
-                                      height: '100%',
-                                      background: 'rgba(255, 255, 255, .5)',
-                                      left: 0,
-                                      top: 0,
-                                      zIndex: 10000
-                                    }
-                                  });
-                                },
-                                success: function(response) {
-                                  if(response.estado != 'OK'){
-                                  event.id= response.eventid;
-                                  $.loadingBlockHide();
-                                  $('#calendar').fullCalendar('renderEvent', event);
+                beforeSend: function(){
+                  $.loadingBlockShow({
+                    style: {
+                      position: 'fixed',
+                      width: '100%',
+                      height: '100%',
+                      background: 'rgba(255, 255, 255, .5)',
+                      left: 0,
+                      top: 0,
+                      zIndex: 10000
+                    }
+                  });
+                },
+                success: function(response) {
+                  if(response.estado != 'OK'){
+                  event.id= response.eventid;
+                  $.loadingBlockHide();
+                  $('#calendar').fullCalendar('renderEvent', event);
 
-                                  $('#ModalAdd').modal('hide');
-                                  toastr.success("La cita fué agendada", "Guardado");
-                                }
-                                else{
-                                  toastr.error("Ocurrió un error al acceder", "No se Guardó");
-
-                                }
-                                },
-                                error: function(){
-                                    toastr.error("Ocurrió un error", "No se Guardó");
-                                    setTimeout('document.location.reload()',1500);
-                                }
-                              });
-                            });
-
-
+                  $('#ModalAdd').modal('hide');
+                  toastr.success("La cita fué agendada", "Guardado exitoso!");
+                }
+                else{
+                  toastr.error("Ocurrió un error al acceder", "No se Guardó");
+                  setTimeout('document.location.reload()',1500);
+                }
+                },
+                error: function(){
+                    toastr.error("Ocurrió un error", "No se Guardó!");
+                    setTimeout('document.location.reload()',1500);
+                }
+              });
+            }
+        });
 
 
               function edit(event)
