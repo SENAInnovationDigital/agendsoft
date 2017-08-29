@@ -1,37 +1,34 @@
 <?php
 // Connexion à la base de données
-include('bdd.php');
+include('conexion.php');
 //echo $_POST['title'];
-if (isset($_POST['start']) && isset($_POST['end']) && isset($_POST['motivo'])){
+
 
 	$cedulaPac = $_POST['cedulaPac'];
-	$idmedico = '12345';
-	$idsecretaria = '112233';
 	$idmotivo = $_POST['motivo'];
 	$start = $_POST['start'];
-	$end = $_POST['end'];
+  $end = $_POST['end'];
+	$idmedico = '12345';
+	$idsecretaria = '112233';
 
 
-	$sql = "INSERT INTO cita (docPac_cit, docMed_cit, docSec_cit, id_trata, fechaIni_cit, fechaFin_cit)
-					values ('$cedulaPac', '$idmedico', '$idsecretaria', '$idmotivo', '$start', '$end')";
+
+	$sql = mysqli_query ($conexion, "INSERT INTO cita (docPac_cit, docMed_cit, docSec_cit, id_trata, fechaIni_cit, fechaFin_cit)
+																	values ('$cedulaPac', '$idmedico', '$idsecretaria', '$idmotivo', '$start', '$end')");
 	//$req = $bdd->prepare($sql);
 	//$req->execute();
 
-	echo $sql;
+	$idEvento = mysqli_insert_id($conexion);
 
-	$query = $bdd->prepare( $sql );
-	if ($query == false) {
-	 print_r($bdd->errorInfo());
+	if ($sql == false) {
 	 die ('Erreur prepare');
 	}
-	$sth = $query->execute();
-	if ($sth == false) {
-	 print_r($query->errorInfo());
-	 die ('Erreur execute');
+	else{
+		echo json_encode(array('estado'=>'OK','eventid'=>$idEvento));
 	}
 
-}
-header('Location: '.$_SERVER['HTTP_REFERER']);
+
+//header('Location: '.$_SERVER['HTTP_REFERER']);
 
 
 ?>

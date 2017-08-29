@@ -63,7 +63,7 @@
       </div>
 
 
-      <!-- Modal -->
+      <!-- Modal ADD -->
       <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -116,7 +116,7 @@
                 <input type="text" name="" id="validacionPaciente" readonly>
                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i>
                   Cerrar</button>
-                  <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>
+                  <button type="button" id="btn-save" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>
                     Guardar Cita</button>
                   </div>
                 </form>
@@ -127,11 +127,11 @@
 
 
 
-          <!-- Modal -->
+          <!-- Modal EDIT-->
           <div class="modal fade" id="ModalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form class="form-horizontal" method="POST" action="controlador/editEventTitle.php">
+                <form class="form-horizontal"><!-- method="POST" action="controlador/editEventTitle.php">-->
                   <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Editar Cita</h4>
@@ -183,8 +183,8 @@
                       <input type="hidden" name="id_cit" class="form-control" id="id_cit">
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-ban" aria-hidden="true"></i> Cerrar</button>
-                      <button type="submit" class="btn btn-primary" id="guardaP"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar Cambios</button>
+                      <button type="button" class="btn btn-default"  id="cerrarM" ><i class="fa fa-ban" aria-hidden="true"></i> Cerrar</button>
+                      <button type="button" class="btn btn-primary" id="guardaP"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar Cambios</button>
                     </div>
                   </form>
                 </div>
@@ -244,15 +244,21 @@
               },*/
 
               eventDrop: function(event, delta, revertFunc) { // si changement de position
-                bootbox.confirm("¿Confirmar cambios?", function(result){
-                  if (result){edit(event);}
+                bootbox.confirm("¿Confirmar cambios?", function(result)
+                {
+                  if (result){
+                    edit(event);
+                  }
                   else{
                     revertFunc();
                   }
                 });
               },
 
+
               eventClick: function( event,jsEvent,view) {
+                $('#guardaP').off("click");
+                $('#delete_Evento').off("click");
                 $('#ModalEdit #id_cit').val(event.id_cit);
                 $('#ModalEdit #title').val(event.title);
                 $('#ModalEdit #color').val(event.color);
@@ -260,6 +266,7 @@
                 $('#ModalEdit #end').val(event.end.format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalEdit').modal('show');
 
+                //-----Eliminado eventClick
                   $('#delete_Evento').click(function(){
                     bootbox.confirm("¿Confirma que desea ELIMINAR la cita de "+event.title+"?", function(result){
                       if (result)
@@ -271,8 +278,23 @@
                              data: datos,
                              type: "POST",
 
+                             beforeSend: function(){
+                               $.loadingBlockShow({
+                                 style: {
+                                   position: 'fixed',
+                                   width: '100%',
+                                   height: '100%',
+                                   background: 'rgba(255, 255, 255, .5)',
+                                   left: 0,
+                                   top: 0,
+                                   zIndex: 10000
+                                 }
+                               });
+                             },
+
                              success: function () {
                              $('#calendar').fullCalendar('removeEvents',  event._id);
+                               $.loadingBlockHide();
                              toastr.error("la cita de "+event.title+" ha sido eliminada", "Eliminacion!!!");
                              }
                            });
@@ -286,7 +308,62 @@
                           }
                         });
                   });
-             },
+
+                    //-----GUARDADO  EDITADO eventClick
+                    $('#guardaP').click(function(){
+                      bootbox.confirm("¿Confirma que desea EDITAR la cita de "+event.title+"?", function(result){
+                        if (result)
+                        {
+                    $('#guardaP').off("click");
+                      datos2 = {'id_cit':event.id_cit,'color':$('#ModalEdit #motivo').val(),'start':$('#ModalEdit #start').val(),'end':$('#ModalEdit #end').val()};//,, 'end':event.end.format('YYYY-MM-DD HH:mm:ss')d}
+                      var datos3=[
+                        {id_cit:event.id_cit,title:$('#ModalEdit #title').val(), color:$('#ModalEdit #motivo').val(),start:$('#ModalEdit #start').val(),end:$('#ModalEdit #end').val()}//,, 'end':event.end.format('YYYY-MM-DD HH:mm:ss')d}
+                      ];
+                        $.ajax({
+                           url: 'controlador/editEventTitle.php',
+                           data: datos2,
+                           type: "POST",
+
+                           beforeSend: function(){
+                             $.loadingBlockShow({
+                               style: {
+                                 position: 'fixed',
+                                 width: '100%',
+                                 height: '100%',
+                                 background: 'rgba(255, 255, 255, .5)',
+                                 left: 0,
+                                 top: 0,
+                                 zIndex: 10000
+                               }
+                             });
+                           },
+
+                           success: function () {
+                            $('#calendar').fullCalendar('removeEvents',event._id);
+                            $('#calendar').fullCalendar('addEventSource',  datos3);
+                              $.loadingBlockHide();
+                            toastr.info("la cita de "+event.title+" ha sido editada", "Edicion!!!");
+                          }
+                      });
+                      $('#ModalEdit').modal('hide');
+                      $('#guardaP').off("click");
+                    }
+                    else {
+                      alert("no edito nada");
+                      $('#ModalEdit').modal('hide');
+                      $('#guardaP').off("click");
+                    }
+                  });
+
+                      });
+
+
+                      //CIERRE del modal eventClick
+                      $('#cerrarM').click(function(){
+                          $('#delete_Evento').off("click");
+                          $('#ModalEdit').modal('hide');
+                        });
+                     }, // fin eventClick
 
 
               eventResize: function(event,dayDelta,minuteDelta,revertFunc) { // si changement de longueur
@@ -298,6 +375,7 @@
                     });
 
               },
+
               events: [
                 <?php foreach($events as $event):
 
@@ -325,6 +403,66 @@
                   ?>
                 ]
               });
+
+
+         // Guardar nueva cita
+              $("#btn-save").click(function(event){
+
+                              cedulaPac = $('#ModalAdd #cedulaPac').val();
+                              motivo =   $('#ModalAdd #motivo').val();
+                              start = $('#ModalAdd #start').val();
+                              end = $('#ModalAdd #end').val();
+                              title = $('#ModalAdd #cita_pac').val();
+
+
+                              event.color = motivo;
+                              event.start = start;
+                              event.end = end;
+                              event.title = title;
+
+                              datos = {'cedulaPac': cedulaPac, 'motivo':motivo, 'start':start, 'end':end}
+
+                              $.ajax({
+                                url: 'controlador/agregarCita.php',
+                                type: "POST",
+                                data: datos,
+
+                                beforeSend: function(){
+                                  $.loadingBlockShow({
+                                    style: {
+                                      position: 'fixed',
+                                      width: '100%',
+                                      height: '100%',
+                                      background: 'rgba(255, 255, 255, .5)',
+                                      left: 0,
+                                      top: 0,
+                                      zIndex: 10000
+                                    }
+                                  });
+                                },
+                                success: function(response) {
+                                  if(response.estado != 'OK'){
+                                  event.id= response.eventid;
+                                  $.loadingBlockHide();
+                                  $('#calendar').fullCalendar('renderEvent', event);
+
+                                  $('#ModalAdd').modal('hide');
+                                  toastr.success("La cita fué agendada", "Guardado");
+                                }
+                                else{
+                                  toastr.error("Ocurrió un error al acceder", "No se Guardó");
+
+                                }
+                                },
+                                error: function(){
+                                    toastr.error("Ocurrió un error", "No se Guardó");
+                                    setTimeout('document.location.reload()',1500);
+                                }
+                              });
+                            });
+
+
+
 
               function edit(event)
               {
@@ -379,11 +517,9 @@
                       setTimeout('document.location.reload()',1500);
                   }
                 });
-
             }
 
             });
-
         </script>
         <!--Finalización del codigo funcion del calendario-->
 
