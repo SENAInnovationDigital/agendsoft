@@ -213,8 +213,7 @@
 
       for (i =0;i< arrCalEvents.length; i++)
       {
-              if (arrCalEvents[i].id_cit != event)
-            {
+
               if (eventoStart >= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm:ss')
               && eventoStart <= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm:ss'))
               {
@@ -238,8 +237,7 @@
                   return resultado;
                   break;
                 }
-             }
-        }
+            }
         return resultado;
       }
 
@@ -268,7 +266,7 @@
 
               defaultDate: new Date(),
               editable: true,
-                eventLimit: true, // allow "more" link when too many events
+              eventLimit: true, // allow "more" link when too many events
               selectable: true,
               selectHelper: true,
               businessHours: true,
@@ -280,6 +278,8 @@
                 $('#ModalAdd #end').val(moment(end).format('YYYY-MM-DD 08:30:ss'));
                 $('#ModalAdd #cedulaPac').val("");
                 $('#ModalAdd #validacionPaciente').val("");
+                $('#ModalAdd #validacionPaciente').val("");
+                $('#ModalAdd #validacionPaciente').removeAttr('class');
                 $('#ModalAdd #cita_pac').val("");
                 $('#ModalAdd #celular').val("");
                 $('#ModalAdd').modal('show');
@@ -319,11 +319,10 @@
                 $('#ModalEdit #start').val(event.start.format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalEdit #end').val(event.end.format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalEdit').modal('show');
-                $("#validacionPaciente").removeClass("noreg-estado");
 
                 //-----Eliminado eventClick
                   $('#delete_Evento').click(function(){
-                    alert(event.celular);
+
                     bootbox.confirm("¿Confirma que desea ELIMINAR la cita de "+event.title+"?", function(result){
                       if (result)
                       {

@@ -11,20 +11,18 @@
                  ape = data.apellido;
                  a = nom+' '+ape;
                $("#cita_pac").val(a);
+               $("#celular").val(data.tel1);
              }
-             else
+             else{
                $("#cita_pac").val("");
-
-             if(data.tel1)
-               $("#ModalAdd #celular").val(data.tel1);
-             else
-               $("#ModalAdd #celular").val("");
+               $("#celular").val("");
+             }
 
 
              if(data.validacion)
- 	$("#validacionPaciente").val(data.validacion);
- 	else
- 	 $("#validacionPaciente").val("");
+               	$("#validacionPaciente").val(data.validacion);
+               	else
+               	 $("#validacionPaciente").val("");
 
              if(data.validacion == "Paciente no registrado"){
                $("#validacionPaciente").removeClass("reg-estado");
