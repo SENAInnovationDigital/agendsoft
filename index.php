@@ -207,13 +207,14 @@
       <script>
       //FUNCION DE COMPROBACION DE overlap
       //1=START      2= END        3=start y end        0=NoOverlap
-      function isOverlapping(eventoStart,eventoEnd) {
+      function isOverlapping(eventoStart,eventoEnd,idcita) {
       var resultado=0;
       var arrCalEvents =$('#calendar').fullCalendar('clientEvents');
 
       for (i =0;i< arrCalEvents.length; i++)
       {
-
+          if(idcita!=arrCalEvents[i].id_cit)
+          {
               if (eventoStart >= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm:ss')
               && eventoStart <= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm:ss'))
               {
@@ -237,6 +238,7 @@
                   return resultado;
                   break;
                 }
+              }
             }
         return resultado;
       }
@@ -368,20 +370,21 @@
                     $('#guardaP').click(function(){
                       ini = $('#ModalEdit #start').val();
                       fin= $('#ModalEdit #end').val();
-                      if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val())
+                      if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val(),event.id_cit)
                        ==1)
                        {
                        toastr.error("La fecha de inicio de la cita se sobrepone con otra cita", "Fecha inválida!");
                       }
-                      else if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val())
+                      else if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val(),event.id_cit)
                         ==2)
                         {
                         toastr.error("La fecha Final de la cita se sobrepone con otra cita", "Fecha inválida!");
                       }
-                      else if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val())
+                      else if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val(),event.id_cit)
                         ==3)
                         {
                         toastr.error("La fecha Inicial y Final de la cita se sobrepone con otra cita", "Fecha inválida!");
+
                       }
 
                     else if(ini > fin ){
@@ -507,17 +510,17 @@
               event.celular = celular;
 
               //Comprobacion del overlap
-              if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val())
+              if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val(),0)
                ==1)
                {
                toastr.error("La fecha de inicio de la cita se sobrepone con otra cita", "Fecha inválida!");
               }
-              else if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val())
+              else if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val(),0)
                 ==2)
                 {
                 toastr.error("La fecha Final de la cita se sobrepone con otra cita", "Fecha inválida!");
               }
-              else if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val())
+              else if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val(),0)
                 ==3)
                 {
                 toastr.error("La fecha Inicial y Final de la cita se sobrepone con otra cita", "Fecha inválida!");
