@@ -7,10 +7,20 @@
 
           $.post("./controlador/ajaxnompaciente.php", {"id_pac":$("#cedulaPac").val()}, function(data){
               // Si devuelve un nombre lo mostramos, si no, vaciamos la casilla
-              if(data.nombre)
-                $("#cita_pac").val(data.nombre);
+              if(data.nombre){
+              var nom = data.nombre;
+                  ape = data.apellido;
+                  a = nom+' '+ape;
+                $("#cita_pac").val(a);
+              }
               else
                 $("#cita_pac").val("");
+
+              if(data.tel1)
+                $("#ModalAdd #celular").val(data.tel1);
+              else
+                $("#ModalAdd #celular").val("");
+
 
               if(data.validacion)
   							$("#validacionPaciente").val(data.validacion);

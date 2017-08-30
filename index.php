@@ -2,7 +2,7 @@
   require_once('controlador/bdd.php');
   include('controlador/tratamientos.php');
     include('controlador/tratamientos2.php');
-    $sql = "SELECT c.id_cit, c.fechaIni_cit, c.fechaFin_cit, c.id_trata, c.docPac_cit, p.nombres_pac, p.apellidos_pac
+    $sql = "SELECT c.id_cit, c.fechaIni_cit, c.fechaFin_cit, c.id_trata, c.docPac_cit, p.nombres_pac, p.apellidos_pac, p.telefono1_pac
             FROM cita c, paciente p
             WHERE c.docPac_cit = p.doc_pac";
   $req = $bdd->prepare($sql);
@@ -111,6 +111,12 @@
                     <input type="text" name="end" class="form-control" id="end">
                   </div>
                 </div>
+                <div class="form-group">
+                  <label for="celular" class="col-sm-2 control-label">Celular</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="celular" class="form-control" id="celular" readonly>
+                  </div>
+                </div>
               </div>
               <div class="modal-footer">
                 <input type="text" name="form-control" id="validacionPaciente" readonly>
@@ -123,7 +129,6 @@
               </div>
             </div>
           </div>
-
 
 
 
@@ -171,6 +176,12 @@
                       </div>
                     </div>
 
+                    <div class="form-group">
+                      <label for="celular" class="col-sm-2 control-label">Número de celular</label>
+                      <div class="col-sm-10">
+                        <input type="text" name="celular" class="form-control" id="celular" readonly>
+                      </div>
+                    </div>
 
                     <div class="form-group">
                       <div class="col-sm-offset-2 col-sm-10">
@@ -217,11 +228,12 @@
 
               defaultDate: new Date(),
               editable: true,
-              eventLimit: true, // allow "more" link when too many events
+                eventLimit: true, // allow "more" link when too many events
               selectable: true,
               selectHelper: true,
               businessHours: true,
               eventOverlap:false,
+
               select: function(start, end) {
                 end = start;
                 $('#ModalAdd #start').val(moment(start).format('YYYY-MM-DD 08:mm:ss'));
@@ -229,6 +241,7 @@
                 $('#ModalAdd #cedulaPac').val("");
                 $('#ModalAdd #validacionPaciente').val("");
                 $('#ModalAdd #cita_pac').val("");
+                $('#ModalAdd #celular').val("");
                 $('#ModalAdd').modal('show');
               },
 
@@ -262,12 +275,14 @@
                 $('#ModalEdit #id_cit').val(event.id_cit);
                 $('#ModalEdit #title').val(event.title);
                 $('#ModalEdit #motivo').val(event.color);
+                $('#ModalEdit #celular').val(event.celular);
                 $('#ModalEdit #start').val(event.start.format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalEdit #end').val(event.end.format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalEdit').modal('show');
 
                 //-----Eliminado eventClick
                   $('#delete_Evento').click(function(){
+                    alert(event.celular);
                     bootbox.confirm("¿Confirma que desea ELIMINAR la cita de "+event.title+"?", function(result){
                       if (result)
                       {
@@ -330,8 +345,9 @@
                               'start':$('#ModalEdit #start').val(),'end':$('#ModalEdit #end').val()};//,, 'end':event.end.format('YYYY-MM-DD HH:mm:ss')d}
                               var datos3=[
                               {id_cit:event.id_cit,title:$('#ModalEdit #title').val(),
-                              color:$('#ModalEdit #motivo').val(),start:$('#ModalEdit #start').val(),
-                              end:$('#ModalEdit #end').val()}//,, 'end':event.end.format('YYYY-MM-DD HH:mm:ss')d}
+                                celular: $('#ModalEdit #celular').val(),
+                                color:$('#ModalEdit #motivo').val(),start:$('#ModalEdit #start').val(),
+                                end:$('#ModalEdit #end').val()}//,, 'end':event.end.format('YYYY-MM-DD HH:mm:ss')d}
                       ];
                         $.ajax({
                            url: 'controlador/editEventTitle.php',
@@ -410,6 +426,7 @@
                     start: '<?php echo $start; ?>',
                     end: '<?php echo $end; ?>',
                     color: '<?php echo $event['id_trata']; ?>',
+                    celular: '<?php echo $event['telefono1_pac']; ?>',
                   },
                   <?php endforeach;
                   ?>
@@ -425,12 +442,14 @@
               start = $('#ModalAdd #start').val();
               end = $('#ModalAdd #end').val();
               title = $('#ModalAdd #cita_pac').val();
+              celular = $('#ModalAdd #celular').val();
               estado = $('#validacionPaciente').val();
 
               event.color = motivo;
               event.start = start;
               event.end = end;
               event.title = title;
+              event.celular = celular;
 
               if(cedulaPac == ""){
                 $('#ModalAdd #cedulaPac').focus();
