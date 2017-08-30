@@ -205,6 +205,46 @@
 
       <!--Inicio del codigo funcion del calendario-->
       <script>
+      //FUNCION DE COMPROBACION DE overlap
+      //1=START      2= END        3=start y end        0=NoOverlap
+      function isOverlapping(eventoStart,eventoEnd) {
+      var resultado=0;
+      var arrCalEvents =$('#calendar').fullCalendar('clientEvents');
+
+      for (i =0;i< arrCalEvents.length; i++)
+      {
+              if (arrCalEvents[i].id_cit != event)
+            {
+              if (eventoStart >= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm:ss')
+              && eventoStart <= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm:ss'))
+              {
+                resultado=1;
+                return resultado;
+                break;
+              }
+
+          else if (eventoEnd >= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm:ss')
+               && eventoEnd <= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm:ss'))
+                {
+                  resultado= 2;
+                  return resultado;
+                  break;
+                }
+
+                if (eventoStart <= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm:ss')
+                && eventoEnd >= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm:ss'))
+                {
+                  resultado=3;
+                  return resultado;
+                  break;
+                }
+             }
+        }
+        return resultado;
+      }
+
+
+
           $(document).ready(function() {
             $('#calendar').fullCalendar({
 
@@ -279,6 +319,7 @@
                 $('#ModalEdit #start').val(event.start.format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalEdit #end').val(event.end.format('YYYY-MM-DD HH:mm:ss'));
                 $('#ModalEdit').modal('show');
+                $("#validacionPaciente").removeClass("noreg-estado");
 
                 //-----Eliminado eventClick
                   $('#delete_Evento').click(function(){
@@ -328,8 +369,23 @@
                     $('#guardaP').click(function(){
                       ini = $('#ModalEdit #start').val();
                       fin= $('#ModalEdit #end').val();
+                      if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val())
+                       ==1)
+                       {
+                       toastr.error("La fecha de inicio de la cita se sobrepone con otra cita", "Fecha inválida!");
+                      }
+                      else if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val())
+                        ==2)
+                        {
+                        toastr.error("La fecha Final de la cita se sobrepone con otra cita", "Fecha inválida!");
+                      }
+                      else if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val())
+                        ==3)
+                        {
+                        toastr.error("La fecha Inicial y Final de la cita se sobrepone con otra cita", "Fecha inválida!");
+                      }
 
-                      if(ini > fin ){
+                    else if(ini > fin ){
                         ini = $('#ModalEdit #start').val();
                         toastr.error("La fecha de inicio: "+$('#ModalEdit #start').val()+" no debe ser mayor a la de finalización.", "Horario incorrecto");
                       }
@@ -451,21 +507,42 @@
               event.title = title;
               event.celular = celular;
 
-              if(cedulaPac == ""){
+              //Comprobacion del overlap
+              if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val())
+               ==1)
+               {
+               toastr.error("La fecha de inicio de la cita se sobrepone con otra cita", "Fecha inválida!");
+              }
+              else if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val())
+                ==2)
+                {
+                toastr.error("La fecha Final de la cita se sobrepone con otra cita", "Fecha inválida!");
+              }
+              else if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val())
+                ==3)
+                {
+                toastr.error("La fecha Inicial y Final de la cita se sobrepone con otra cita", "Fecha inválida!");
+              }
+
+              else if(cedulaPac == ""){
                 $('#ModalAdd #cedulaPac').focus();
                 $('#ModalAdd #cedulaPac').addClass('red-form');
                 }
-              else if(estado == "Paciente no registrado"){
-                toastr.error("Paciente no registrado", "Documento inválido!");
-              }
-              else if(start > end ){
-                toastr.error("La fecha de inicio: "+$('#ModalAdd #start').val()+" no debe ser mayor a la de finalización.", "Horario incorrecto");
-              }
-              else if(start == end){
-                toastr.error("La fecha de inicio: "+$('#ModalAdd #start').val()+" no debe ser igual a la de finalización.", "Horario incorrecto");
-              }
 
-              else{
+                else if(estado == "Paciente no registrado"){
+                  toastr.error("Paciente no registrado", "Documento inválido!");
+                }
+
+                else if(start > end ){
+                  toastr.error("La fecha de inicio: "+$('#ModalAdd #start').val()+" no debe ser mayor a la de finalización.", "Horario incorrecto");
+                }
+                else if(start == end){
+                  toastr.error("La fecha de inicio: "+$('#ModalAdd #start').val()+" no debe ser igual a la de finalización.", "Horario incorrecto");
+                }
+
+              else if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val())
+                 ==0)
+                 {
               datos = {'cedulaPac': cedulaPac, 'motivo':motivo, 'start':start, 'end':end}
 
               $.ajax({
@@ -506,7 +583,7 @@
                 }
               });
             }
-        });
+          });
 
 
               function edit(event)
