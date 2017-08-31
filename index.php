@@ -375,45 +375,44 @@
 
                     //-----GUARDADO  EDITADO eventClick
                     $('#guardaP').click(function(){
-                      ini = $('#ModalEdit #horaini').val();
-                      fin= $('#ModalEdit #horafin').val();
+
                       startDate2 = $('#ModalEdit #start').val();
                       endDate2 = $('#ModalEdit #end').val();
-                      horaini2 = $('#ModalEdit #horaini').val();
-                      horafin2 = $('#ModalEdit #horafin').val();
+                      horaini = $('#ModalEdit #horaini').val();
+                      horafin = $('#ModalEdit #horafin').val();
 
-                      start2 = startDate2+" "+horaini2;
-                      end2 = endDate2+" "+horafin2;
+                      start2 = startDate2+" "+horaini;
+                      end2 = endDate2+" "+horafin;
 
 
                       if( isOverlapping(start2, end2)
                        ==1)
-                       {
+                      {
                        toastr.error("La fecha de inicio de la cita se sobrepone con otra cita", "Fecha inválida!");
                       }
                       else if( isOverlapping(start2, end2)
                         ==2)
-                        {
+                      {
                         toastr.error("La fecha Final de la cita se sobrepone con otra cita", "Fecha inválida!");
                       }
-                      else if( isOverlapping(start2, end2)
+                      else if( isOverlapping(start2,end2)
                         ==3)
-                        {
+                      {
                         toastr.error("La fecha Inicial y Final de la cita se sobrepone con otra cita", "Fecha inválida!");
                       }
 
-                      else if(ini > fin ){
+                      else if(horaini > horafin ){
                         toastr.error("La fecha de inicio: "+start2+" no debe ser mayor a la de finalización.", "Horario incorrecto");
                       }
-                      else if(ini == fin){
+                      else if(horaini == horafin){
                         toastr.error("La fecha de inicio: "+start2+" no debe ser igual a la de finalización.", "Horario incorrecto");
                       }
                       else{
-                        $('#guardaP').off("click");
 
                       bootbox.confirm("¿Confirma que desea EDITAR la cita de "+event.title+"?", function(result){
                         if (result)
                       {
+                          $('#guardaP').off("click");
 
                           datos2 = {'id_cit':event.id_cit,'color':$('#ModalEdit #motivo').val(),
                           'start':start2,'end':end2};//,, 'end':event.end.format('HH:mm')d}
