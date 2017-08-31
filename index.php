@@ -51,7 +51,7 @@
               <div class="col-md-3"></div>
               <div class="col-md-4 etiqueta-doc">
                 <i class="fa fa-user-md fa-3x" aria-hidden="true"></i>
-                <h4>Dr. Juan Roberto Parra Soto</h4>
+                <h4>Dr. Juan Roberto Hortua Herrera</h4>
               </div>
             </div>
           </div>
