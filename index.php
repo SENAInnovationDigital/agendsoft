@@ -26,17 +26,20 @@
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet" >
     <link rel="stylesheet" href="css/toastr.min.css">
 
-
     <!--Enlace JQuery-->
     <script src="js/libraries/jquery-1.12.1.min.js"></script>
 
   </head>
   <body>
+    <!--Preloader screen complete-->
     <div class="fakeloader"></div>
 
+    <!--Navbar-->
     <?php
     include("estructura/navbar.php");
     ?>
+
+
     <!-- Page Content -->
     <div class="container">
       <div class="row">
@@ -44,26 +47,20 @@
           <img src="img/logo2.png" alt="">
           <div class="">
             <div class="row">
-              <div class="col-md-4">
-
-              </div>
-              <div class="col-md-3">
-
-              </div>
+              <div class="col-md-4"></div>
+              <div class="col-md-3"></div>
               <div class="col-md-4 etiqueta-doc">
                 <i class="fa fa-user-md fa-3x" aria-hidden="true"></i>
                 <h4>Dr. Juan Roberto Parra Soto</h4>
               </div>
-
             </div>
           </div>
-          <div id="calendar" class="col-centered">
-          </div>
+            <div id="calendar" class="col-centered"></div>
         </div>
       </div>
 
 
-      <!-- Modal ADD -->
+      <!-- Modal Agregar cita-->
       <div class="modal fade" id="ModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -79,7 +76,6 @@
                     <input type="text" name="cedulaPac" class="form-control" id="cedulaPac" placeholder="Cedula" autofocus autocomplete="off">
                   </div>
                 </div>
-
                 <div class="form-group">
                   <label for="title" class="col-sm-2 control-label">Paciente</label>
                   <div class="col-sm-10">
@@ -93,30 +89,36 @@
                       <?php
                         while ($tratamientos = mysqli_fetch_assoc($consultaTratamientos))
                          {
-                          echo '<option style="color:'.$tratamientos['id_trata'].';" value="'.$tratamientos['id_trata'].'">&#9724;'.$tratamientos['descripcion_tra'].'</option>';
+                           echo '<option style="color:'.$tratamientos['id_trata'].';" value="'.$tratamientos['id_trata'].'">&#9724;'.$tratamientos['descripcion_tra'].'</option>';
                           }
                        ?>
                     </select>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="start" class="col-sm-2 control-label">Fecha De Inicio</label>
+                  <label for="start" class="col-sm-2 control-label">Hora De Inicio</label>
                   <div class="col-sm-10">
-                    <input type="text" name="start" class="form-control" id="start">
+                    <input type="time" name="start" class="form-control" id="horaini">
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="end" class="col-sm-2 control-label">Fecha De Terminación</label>
+                  <label for="start" class="col-sm-2 control-label">Hora De Finalización</label>
                   <div class="col-sm-10">
-                    <input type="text" name="end" class="form-control" id="end">
+                    <input type="time" name="start" class="form-control" id="horafin">
                   </div>
                 </div>
+
+
                 <div class="form-group">
                   <label for="celular" class="col-sm-2 control-label">Celular</label>
                   <div class="col-sm-10">
                     <input type="text" name="celular" class="form-control" id="celular" readonly>
                   </div>
                 </div>
+                <!--Valor de la fecha actual oculto-->
+                <input hidden=""type="text" name="start" class="" id="start">
+                <input hidden=""type="text" name="end" class="" id="end">
+
               </div>
               <div class="modal-footer">
                 <input type="text" name="form-control" id="validacionPaciente" readonly>
@@ -162,20 +164,18 @@
                         </select>
                       </div>
                     </div>
-
                     <div class="form-group">
-                      <label for="start" class="col-sm-2 control-label">Fecha De Inicio</label>
+                      <label for="start" class="col-sm-2 control-label">Hora De Inicio</label>
                       <div class="col-sm-10">
-                        <input type="text" name="start" class="form-control" id="start">
+                        <input type="time" name="start" class="form-control" id="horaini">
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="end" class="col-sm-2 control-label">Fecha De Terminación</label>
+                      <label for="start" class="col-sm-2 control-label">Hora De Finalización</label>
                       <div class="col-sm-10">
-                        <input type="text" name="end" class="form-control" id="end">
+                        <input type="time" name="start" class="form-control" id="horafin">
                       </div>
                     </div>
-
                     <div class="form-group">
                       <label for="celular" class="col-sm-2 control-label">Número de celular</label>
                       <div class="col-sm-10">
@@ -190,6 +190,9 @@
                           </div>
                         </div>
                       </div>
+                      <!--Valor de la fecha actual oculto-->
+                      <input hidden=""type="text" name="start" class="" id="start">
+                      <input hidden=""type="text" name="end" class="" id="end">
                       <input type="hidden" name="id_cit" class="form-control" id="id_cit">
                     </div>
                     <div class="modal-footer">
@@ -205,34 +208,45 @@
 
       <!--Inicio del codigo funcion del calendario-->
       <script>
-      //FUNCION DE COMPROBACION DE overlap
+      //FUNCION DE COMPROBACION DE overlap      //BYELSENSEI
       //1=START      2= END        3=start y end        0=NoOverlap
+<<<<<<< HEAD
       function isOverlapping(eventoStart,eventoEnd,idcita) {
+=======
+
+    function isOverlapping(eventoStart,eventoEnd) {
+>>>>>>> origin/master
       var resultado=0;
       var arrCalEvents =$('#calendar').fullCalendar('clientEvents');
 
       for (i =0;i< arrCalEvents.length; i++)
       {
+<<<<<<< HEAD
           if(idcita!=arrCalEvents[i].id_cit)
           {
               if (eventoStart >= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm:ss')
               && eventoStart <= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm:ss'))
+=======
+
+              if (eventoStart >= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm')
+                  && eventoStart <= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm'))
+>>>>>>> origin/master
               {
                 resultado=1;
                 return resultado;
                 break;
               }
 
-          else if (eventoEnd >= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm:ss')
-               && eventoEnd <= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm:ss'))
+              else if (eventoEnd >= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm')
+                      && eventoEnd <= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm'))
                 {
                   resultado= 2;
                   return resultado;
                   break;
                 }
 
-                if (eventoStart <= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm:ss')
-                && eventoEnd >= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm:ss'))
+              if (eventoStart <= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm')
+                    && eventoEnd >= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm'))
                 {
                   resultado=3;
                   return resultado;
@@ -243,9 +257,9 @@
         return resultado;
       }
 
-
-
-          $(document).ready(function() {
+        //Cuando el doc HTML esté listo realiza lo siguiente
+        $(document).ready(function() {
+            //contenido del calendario
             $('#calendar').fullCalendar({
 
               monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
@@ -271,15 +285,16 @@
               eventLimit: true, // allow "more" link when too many events
               selectable: true,
               selectHelper: true,
-              businessHours: true,
-              eventOverlap:false,
+              businessHours: true, //Horario de atención
+              eventOverlap:false, //Evita la sobreposición de los eventos Drop
 
               select: function(start, end) {
                 end = start;
-                $('#ModalAdd #start').val(moment(start).format('YYYY-MM-DD 08:mm:ss'));
-                $('#ModalAdd #end').val(moment(end).format('YYYY-MM-DD 08:30:ss'));
                 $('#ModalAdd #cedulaPac').val("");
-                $('#ModalAdd #validacionPaciente').val("");
+                $('#ModalAdd #horaini').val("");
+                $('#ModalAdd #horafin').val("");
+                $('#ModalAdd #start').val(moment(start).format('YYYY-MM-DD'));
+                $('#ModalAdd #end').val(moment(end).format('YYYY-MM-DD'));
                 $('#ModalAdd #validacionPaciente').val("");
                 $('#ModalAdd #validacionPaciente').removeAttr('class');
                 $('#ModalAdd #cita_pac').val("");
@@ -287,13 +302,13 @@
                 $('#ModalAdd').modal('show');
               },
 
-            /*  eventRender: function(event, element) {
+            /*eventRender: function(event, element) {
                 element.bind('dblclick', function() {
                   $('#ModalEdit #id_cit').val(event.id_cit);
                   $('#ModalEdit #title').val(event.title);
                   $('#ModalEdit #color').val(event.color);
-                  $('#ModalEdit #start').val(event.start.format('YYYY-MM-DD HH:mm:ss'));;
-                  $('#ModalEdit #end').val(event.end.format('YYYY-MM-DD HH:mm:ss'));
+                  $('#ModalEdit #start').val(event.start.format('HH:mm'));;
+                  $('#ModalEdit #end').val(event.end.format('HH:mm'));
                   $('#ModalEdit').modal('show');
                 });
               },*/
@@ -314,12 +329,16 @@
               eventClick: function( event,jsEvent,view) {
                 $('#guardaP').off("click");
                 $('#delete_Evento').off("click");
+                //Se obtiene el horario de la cita
+                $('#ModalEdit #horaini').val(event.start.format('HH:mm'));
+                $('#ModalEdit #horafin').val(event.end.format('HH:mm'));
+
                 $('#ModalEdit #id_cit').val(event.id_cit);
                 $('#ModalEdit #title').val(event.title);
                 $('#ModalEdit #motivo').val(event.color);
                 $('#ModalEdit #celular').val(event.celular);
-                $('#ModalEdit #start').val(event.start.format('YYYY-MM-DD HH:mm:ss'));
-                $('#ModalEdit #end').val(event.end.format('YYYY-MM-DD HH:mm:ss'));
+                $('#ModalEdit #start').val(event.start.format('YYYY-MM-DD'));
+                $('#ModalEdit #end').val(event.end.format('YYYY-MM-DD'));
                 $('#ModalEdit').modal('show');
 
                 //-----Eliminado eventClick
@@ -349,7 +368,7 @@
                                });
                              },
 
-                             success: function () {
+                            success: function () {
                              $('#calendar').fullCalendar('removeEvents',  event._id);
                                $.loadingBlockHide();
                              toastr.error("la cita de "+event.title+" ha sido eliminada", "Eliminación exitosa!");
@@ -360,53 +379,78 @@
 
                           if(!result)
                           {
-                          toastr.info("la cita de "+event.title+" No fué eliminada", "No se eliminó!");
-                          $('#delete_Evento').off("click");
+                            toastr.info("la cita de "+event.title+" No fué eliminada", "No se eliminó!");
+                            $('#delete_Evento').off("click");
                           }
                         });
                   });
 
                     //-----GUARDADO  EDITADO eventClick
                     $('#guardaP').click(function(){
+<<<<<<< HEAD
                       ini = $('#ModalEdit #start').val();
                       fin= $('#ModalEdit #end').val();
                       if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val(),event.id_cit)
+=======
+
+                      startDate2 = $('#ModalEdit #start').val();
+                      endDate2 = $('#ModalEdit #end').val();
+                      horaini = $('#ModalEdit #horaini').val();
+                      horafin = $('#ModalEdit #horafin').val();
+
+                      start2 = startDate2+" "+horaini;
+                      end2 = endDate2+" "+horafin;
+
+
+                      if( isOverlapping(start2, end2)
+>>>>>>> origin/master
                        ==1)
-                       {
+                      {
                        toastr.error("La fecha de inicio de la cita se sobrepone con otra cita", "Fecha inválida!");
                       }
+<<<<<<< HEAD
                       else if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val(),event.id_cit)
+=======
+                      else if( isOverlapping(start2, end2)
+>>>>>>> origin/master
                         ==2)
-                        {
+                      {
                         toastr.error("La fecha Final de la cita se sobrepone con otra cita", "Fecha inválida!");
                       }
+<<<<<<< HEAD
                       else if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val(),event.id_cit)
+=======
+                      else if( isOverlapping(start2,end2)
+>>>>>>> origin/master
                         ==3)
-                        {
+                      {
                         toastr.error("La fecha Inicial y Final de la cita se sobrepone con otra cita", "Fecha inválida!");
 
                       }
 
-                    else if(ini > fin ){
-                        ini = $('#ModalEdit #start').val();
-                        toastr.error("La fecha de inicio: "+$('#ModalEdit #start').val()+" no debe ser mayor a la de finalización.", "Horario incorrecto");
+                      else if(horaini > horafin ){
+                        toastr.error("La fecha de inicio: "+start2+" no debe ser mayor a la de finalización.", "Horario incorrecto");
                       }
-                      else if(ini == fin){
-                        toastr.error("La fecha de inicio: "+$('#ModalEdit #start').val()+" no debe ser igual a la de finalización.", "Horario incorrecto");
+                      else if(horaini == horafin){
+                        toastr.error("La fecha de inicio: "+start2+" no debe ser igual a la de finalización.", "Horario incorrecto");
                       }
                       else{
+
                       bootbox.confirm("¿Confirma que desea EDITAR la cita de "+event.title+"?", function(result){
                         if (result)
-                        {
+                      {
                           $('#guardaP').off("click");
-                              datos2 = {'id_cit':event.id_cit,'color':$('#ModalEdit #motivo').val(),
-                              'start':$('#ModalEdit #start').val(),'end':$('#ModalEdit #end').val()};//,, 'end':event.end.format('YYYY-MM-DD HH:mm:ss')d}
-                              var datos3=[
-                              {id_cit:event.id_cit,title:$('#ModalEdit #title').val(),
-                                celular: $('#ModalEdit #celular').val(),
-                                color:$('#ModalEdit #motivo').val(),start:$('#ModalEdit #start').val(),
-                                end:$('#ModalEdit #end').val()}//,, 'end':event.end.format('YYYY-MM-DD HH:mm:ss')d}
-                      ];
+
+                          datos2 = {'id_cit':event.id_cit,'color':$('#ModalEdit #motivo').val(),
+                          'start':start2,'end':end2};//,, 'end':event.end.format('HH:mm')d}
+                          var datos3=[
+                                  {
+                                  id_cit:event.id_cit,title:$('#ModalEdit #title').val(),
+                                  celular: $('#ModalEdit #celular').val(),
+                                  color:$('#ModalEdit #motivo').val(),start:start2,
+                                  end:end2
+                                }//,, 'end':event.end.format('HH:mm')d}
+                              ];
                         $.ajax({
                            url: 'controlador/editEventTitle.php',
                            data: datos2,
@@ -444,14 +488,12 @@
                   });
                 }
             });
-
-                      //CIERRE del modal eventClick
-                      $('#cerrarM').click(function(){
-                          $('#delete_Evento').off("click");
-                          $('#ModalEdit').modal('hide');
-                        });
-                     }, // fin eventClick
-
+                  //CIERRE del modal eventClick
+                  $('#cerrarM').click(function(){
+                      $('#delete_Evento').off("click");
+                      $('#ModalEdit').modal('hide');
+                    });
+                 }, // fin eventClick
 
               eventResize: function(event,dayDelta,minuteDelta,revertFunc) { // si changement de longueur
                 bootbox.confirm("¿Confirmar cambios?", function(result){
@@ -487,6 +529,7 @@
                     celular: '<?php echo $event['telefono1_pac']; ?>',
                   },
                   <?php endforeach;
+
                   ?>
                 ]
               });
@@ -495,13 +538,19 @@
          // Guardar nueva cita
               $("#btn-save").click(function(event){
 
+              horaini = $('#ModalAdd #horaini').val();
+              horafin = $('#ModalAdd #horafin').val();
+
               cedulaPac = $('#ModalAdd #cedulaPac').val();
               motivo =   $('#ModalAdd #motivo').val();
-              start = $('#ModalAdd #start').val();
-              end = $('#ModalAdd #end').val();
+              startDate = $('#ModalAdd #start').val();
+              endDate = $('#ModalAdd #end').val();
               title = $('#ModalAdd #cita_pac').val();
               celular = $('#ModalAdd #celular').val();
               estado = $('#validacionPaciente').val();
+
+              start = startDate+" "+horaini;
+              end = endDate+" "+horafin;
 
               event.color = motivo;
               event.start = start;
@@ -510,23 +559,36 @@
               event.celular = celular;
 
               //Comprobacion del overlap
+<<<<<<< HEAD
               if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val(),0)
+=======
+
+              if( isOverlapping(start, end)
+>>>>>>> origin/master
                ==1)
                {
                toastr.error("La fecha de inicio de la cita se sobrepone con otra cita", "Fecha inválida!");
               }
+<<<<<<< HEAD
               else if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val(),0)
+=======
+              else if( isOverlapping(start, end)
+>>>>>>> origin/master
                 ==2)
                 {
                 toastr.error("La fecha Final de la cita se sobrepone con otra cita", "Fecha inválida!");
               }
+<<<<<<< HEAD
               else if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val(),0)
+=======
+              else if( isOverlapping(start,end)
+>>>>>>> origin/master
                 ==3)
                 {
                 toastr.error("La fecha Inicial y Final de la cita se sobrepone con otra cita", "Fecha inválida!");
               }
 
-              else if(cedulaPac == ""){
+            else if(cedulaPac == ""){
                 $('#ModalAdd #cedulaPac').focus();
                 $('#ModalAdd #cedulaPac').addClass('red-form');
                 }
@@ -536,15 +598,13 @@
                 }
 
                 else if(start > end ){
-                  toastr.error("La fecha de inicio: "+$('#ModalAdd #start').val()+" no debe ser mayor a la de finalización.", "Horario incorrecto");
+                  toastr.error("La hora de inicio: "+horaini+" no debe ser mayor a la de finalización.", "Horario incorrecto");
                 }
                 else if(start == end){
-                  toastr.error("La fecha de inicio: "+$('#ModalAdd #start').val()+" no debe ser igual a la de finalización.", "Horario incorrecto");
+                  toastr.error("La hora de inicio: "+horaini+" no debe ser igual a la de finalización.", "Horario incorrecto");
                 }
+                else{
 
-              else if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val())
-                 ==0)
-                 {
               datos = {'cedulaPac': cedulaPac, 'motivo':motivo, 'start':start, 'end':end}
 
               $.ajax({
@@ -588,11 +648,12 @@
           });
 
 
-              function edit(event)
-              {
-                start = event.start.format('YYYY-MM-DD HH:mm:ss');
+            function edit(event)
+            {
+
+                start = event.start.format('YYYY-MM-DD HH:mm');
                 if(event.end){
-                  end = event.end.format('YYYY-MM-DD HH:mm:ss');
+                  end = event.end.format('YYYY-MM-DD HH:mm');
                 }else{
                   end = start;
                 }
@@ -642,8 +703,7 @@
                   }
                 });
             }
-
-            });
+          });
         </script>
         <!--Finalización del codigo funcion del calendario-->
 
