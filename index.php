@@ -51,7 +51,7 @@
               <div class="col-md-3"></div>
               <div class="col-md-4 etiqueta-doc">
                 <i class="fa fa-user-md fa-3x" aria-hidden="true"></i>
-                <h4>Dr. Juan Roberto Hortua Herrera</h4>
+                <h4>Dr. Juan Roberto Parra Soto</h4>
               </div>
             </div>
           </div>
@@ -210,27 +210,16 @@
       <script>
       //FUNCION DE COMPROBACION DE overlap      //BYELSENSEI
       //1=START      2= END        3=start y end        0=NoOverlap
-<<<<<<< HEAD
-      function isOverlapping(eventoStart,eventoEnd,idcita) {
-=======
 
     function isOverlapping(eventoStart,eventoEnd) {
->>>>>>> origin/master
       var resultado=0;
       var arrCalEvents =$('#calendar').fullCalendar('clientEvents');
 
       for (i =0;i< arrCalEvents.length; i++)
       {
-<<<<<<< HEAD
-          if(idcita!=arrCalEvents[i].id_cit)
-          {
-              if (eventoStart >= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm:ss')
-              && eventoStart <= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm:ss'))
-=======
 
               if (eventoStart >= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm')
                   && eventoStart <= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm'))
->>>>>>> origin/master
               {
                 resultado=1;
                 return resultado;
@@ -252,7 +241,6 @@
                   return resultado;
                   break;
                 }
-              }
             }
         return resultado;
       }
@@ -387,11 +375,6 @@
 
                     //-----GUARDADO  EDITADO eventClick
                     $('#guardaP').click(function(){
-<<<<<<< HEAD
-                      ini = $('#ModalEdit #start').val();
-                      fin= $('#ModalEdit #end').val();
-                      if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val(),event.id_cit)
-=======
 
                       startDate2 = $('#ModalEdit #start').val();
                       endDate2 = $('#ModalEdit #end').val();
@@ -403,29 +386,19 @@
 
 
                       if( isOverlapping(start2, end2)
->>>>>>> origin/master
                        ==1)
                       {
                        toastr.error("La fecha de inicio de la cita se sobrepone con otra cita", "Fecha inválida!");
                       }
-<<<<<<< HEAD
-                      else if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val(),event.id_cit)
-=======
                       else if( isOverlapping(start2, end2)
->>>>>>> origin/master
                         ==2)
                       {
                         toastr.error("La fecha Final de la cita se sobrepone con otra cita", "Fecha inválida!");
                       }
-<<<<<<< HEAD
-                      else if( isOverlapping($('#ModalEdit #start').val(), $('#ModalEdit #end').val(),event.id_cit)
-=======
                       else if( isOverlapping(start2,end2)
->>>>>>> origin/master
                         ==3)
                       {
                         toastr.error("La fecha Inicial y Final de la cita se sobrepone con otra cita", "Fecha inválida!");
-
                       }
 
                       else if(horaini > horafin ){
@@ -559,30 +532,18 @@
               event.celular = celular;
 
               //Comprobacion del overlap
-<<<<<<< HEAD
-              if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val(),0)
-=======
 
               if( isOverlapping(start, end)
->>>>>>> origin/master
                ==1)
                {
                toastr.error("La fecha de inicio de la cita se sobrepone con otra cita", "Fecha inválida!");
               }
-<<<<<<< HEAD
-              else if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val(),0)
-=======
               else if( isOverlapping(start, end)
->>>>>>> origin/master
                 ==2)
                 {
                 toastr.error("La fecha Final de la cita se sobrepone con otra cita", "Fecha inválida!");
               }
-<<<<<<< HEAD
-              else if( isOverlapping($('#ModalAdd #start').val(), $('#ModalAdd #end').val(),0)
-=======
               else if( isOverlapping(start,end)
->>>>>>> origin/master
                 ==3)
                 {
                 toastr.error("La fecha Inicial y Final de la cita se sobrepone con otra cita", "Fecha inválida!");
