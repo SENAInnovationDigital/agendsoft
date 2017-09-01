@@ -211,13 +211,15 @@
       //FUNCION DE COMPROBACION DE overlap      //BYELSENSEI
       //1=START      2= END        3=start y end        0=NoOverlap
 
-    function isOverlapping(eventoStart,eventoEnd) {
+    function isOverlapping(eventoStart,eventoEnd,CitaEvento) {
       var resultado=0;
       var arrCalEvents =$('#calendar').fullCalendar('clientEvents');
 
       for (i =0;i< arrCalEvents.length; i++)
       {
-
+        //alert(arrCalEvents[i].id_cit);
+        if(CitaEvento!=arrCalEvents[i].id_cit)
+        {
               if (eventoStart >= arrCalEvents[i].start.format('YYYY-MM-DD HH:mm')
                   && eventoStart <= arrCalEvents[i].end.format('YYYY-MM-DD HH:mm'))
               {
@@ -242,6 +244,7 @@
                   break;
                 }
             }
+          }
         return resultado;
       }
 
@@ -385,17 +388,17 @@
                       end2 = endDate2+" "+horafin;
 
 
-                      if( isOverlapping(start2, end2)
+                      if( isOverlapping(start2, end2,event.id_cit)
                        ==1)
                       {
                        toastr.error("La fecha de inicio de la cita se sobrepone con otra cita", "Fecha inválida!");
                       }
-                      else if( isOverlapping(start2, end2)
+                      else if( isOverlapping(start2, end2,event.id_cit)
                         ==2)
                       {
                         toastr.error("La fecha Final de la cita se sobrepone con otra cita", "Fecha inválida!");
                       }
-                      else if( isOverlapping(start2,end2)
+                      else if( isOverlapping(start2,end2,event.id_cit)
                         ==3)
                       {
                         toastr.error("La fecha Inicial y Final de la cita se sobrepone con otra cita", "Fecha inválida!");
@@ -533,17 +536,17 @@
 
               //Comprobacion del overlap
 
-              if( isOverlapping(start, end)
+              if( isOverlapping(start, end,0)
                ==1)
                {
                toastr.error("La fecha de inicio de la cita se sobrepone con otra cita", "Fecha inválida!");
               }
-              else if( isOverlapping(start, end)
+              else if( isOverlapping(start, end,0)
                 ==2)
                 {
                 toastr.error("La fecha Final de la cita se sobrepone con otra cita", "Fecha inválida!");
               }
-              else if( isOverlapping(start,end)
+              else if( isOverlapping(start,end,0)
                 ==3)
                 {
                 toastr.error("La fecha Inicial y Final de la cita se sobrepone con otra cita", "Fecha inválida!");
@@ -611,7 +614,6 @@
 
             function edit(event)
             {
-
                 start = event.start.format('YYYY-MM-DD HH:mm');
                 if(event.end){
                   end = event.end.format('YYYY-MM-DD HH:mm');
