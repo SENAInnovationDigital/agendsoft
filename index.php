@@ -98,16 +98,15 @@
                 <div class="form-group">
                   <label for="start" class="col-sm-2 control-label">Hora De Inicio</label>
                   <div class="col-sm-10">
-                    <input type="time" name="start" class="form-control" id="horaini">
+                    <input type="time" name="start" class="form-control" id="horaini" required>
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="start" class="col-sm-2 control-label">Hora De Finalización</label>
                   <div class="col-sm-10">
-                    <input type="time" name="start" class="form-control" id="horafin">
+                    <input type="time" name="start" class="form-control" id="horafin" required>
                   </div>
                 </div>
-
 
                 <div class="form-group">
                   <label for="celular" class="col-sm-2 control-label">Celular</label>
@@ -277,7 +276,7 @@
               selectable: true,
               selectHelper: true,
               businessHours: true, //Horario de atención
-              eventOverlap:false, //Evita la sobreposición de los eventos Drop
+              eventOverlap: false, //Evita la sobreposición de los eventos Drop
 
               select: function(start, end) {
                 end = start;
@@ -512,7 +511,7 @@
 
 
          // Guardar nueva cita
-              $("#btn-save").click(function(event){
+          $("#btn-save").click(function(event){
 
               horaini = $('#ModalAdd #horaini').val();
               horafin = $('#ModalAdd #horafin').val();
@@ -665,7 +664,7 @@
                       setTimeout('document.location.reload()',1500);
                   }
                 });
-            }
+              }
           });
         </script>
         <!--Finalización del codigo funcion del calendario-->

@@ -54,39 +54,40 @@
                             <input id="id_pac" name="id_pac" type="number" placeholder="Documento De Identificación" class="form-control">
                         </div>
                     </div>
+                <div id="form-validate">
 
                     <div class="form-group">
                         <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user fa-2x bigicon"></i></span>
                         <div class="col-md-8">
-                            <input id="nom_pac" name="nom_pac" type="text" placeholder="Nombres" class="form-control">
+                            <input id="nom_pac" name="nom_pac" type="text" placeholder="Nombres" class="form-control form-vali">
                         </div>
                     </div>
                     <div class="form-group">
                         <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon fa-2x "></i></span>
                         <div class="col-md-8">
-                            <input id="ape_pac" name="ape_pac" type="text" placeholder="Apellidos" class="form-control">
+                            <input id="ape_pac" name="ape_pac" type="text" placeholder="Apellidos" class="form-control form-vali">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-venus-mars bigicon fa-2x"></i></span>
                         <div class="col-md-8">
-                          <label class="radio-inline"><input type="radio" id="sex_pac" name="sex_pac" value="M">Masculino</label>
-                          <label class="radio-inline"><input type="radio" id="sex_pac" name="sex_pac" value="F">Femenino</label>
+                          <label class="radio-inline"><input type="radio" id="sex_pac" name="sex_mas" value="M">Masculino</label>
+                          <label class="radio-inline"><input type="radio" id="sex_pac" name="sex_fem" value="F">Femenino</label>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-birthday-cake bigicon fa-2x "></i></span>
                         <div class="col-md-8">
-                            <input id="nac_pac" name="nac_pac" type="date" placeholder="Fecha de nacimiento" class="form-control">
+                            <input id="nac_pac" name="nac_pac" type="date" placeholder="Fecha de nacimiento" class="form-control form-vali">
                         </div>
                     </div>
 
                   <div class="form-group">
-                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-heartbeat bigicon fa-2x "></i></span>
+                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-heartbeat bigicon fa-2x"></i></span>
                     <div class="col-md-8">
-                        <select name="tiposangre_pac" class="form-control" id="tiposangre_pac">
+                        <select name="tiposangre_pac" class="form-control form-vali" id="tiposangre_pac">
                           <option style="" value="A+">&#9764; A+</option>
                           <option style="" value="A-">&#9764; A-</option>
                           <option style="" value="O+">&#9764; O+</option>
@@ -102,33 +103,34 @@
                   <div class="form-group">
                       <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-building bigicon fa-2x "></i></span>
                       <div class="col-md-8">
-                          <input id="ciu_pac" name="ciu_pac" type="text" placeholder="Ciudad" class="form-control">
+                          <input id="ciu_pac" name="ciu_pac" type="text" placeholder="Ciudad" class="form-control form-vali">
                       </div>
                   </div>
 
                   <div class="form-group">
                       <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-home bigicon fa-2x "></i></span>
                       <div class="col-md-8">
-                          <input id="dir_pac" name="dir_pac" type="text" placeholder="Dirección" class="form-control">
+                          <input id="dir_pac" name="dir_pac" type="text" placeholder="Dirección" class="form-control form-vali">
                       </div>
                   </div>
 
                     <div class="form-group">
                         <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon fa-2x "></i></span>
                         <div class="col-md-4">
-                            <input id="tel1" name="tel1" type="text" placeholder="Número Teléfonico" class="form-control">
+                            <input id="tel1" name="tel1" type="text" placeholder="Número Teléfonico" class="form-control form-vali">
                         </div>
                         <div class="col-md-4">
-                            <input id="tel2" name="tel2" type="text" placeholder="Número Teléfonico alternativo" class="form-control">
+                            <input id="tel2" name="tel2" type="text" placeholder="Número Teléfonico alternativo" class="form-control form-vali">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon fa-2x "></i></span>
                         <div class="col-md-8">
-                            <input id="email_pac" name="email_pac" type="text" placeholder="Correo" class="form-control">
+                            <input id="email_pac" name="email_pac" type="text" placeholder="Correo" class="form-control form-vali">
                         </div>
                     </div><br>
+                  </div>
 
                     <div class="form-group">
                         <div class="col-md-12 text-center">
@@ -161,9 +163,8 @@
   <script src="js/validacionForm.js"></script>
   <script src="js/libraries/toastr.min.js"></script>
   <script src="js/active.js"></script>
+  <script src="js/validacionRegPaciente.js"></script>
   <script src="js/registroPacientes.js"></script>
-
-
 
   </body>
 
