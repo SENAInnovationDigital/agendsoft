@@ -1,15 +1,18 @@
 <?php
 // Connexion à la base de données
 include('conexion.php');
+include('../estructura/navbar.php');
 //echo $_POST['title'];
-
+	if(isset($_SESSION['doc_sec'])){
+		$idsecretaria = $_SESSION['doc_sec'];
+	}
 
 	$cedulaPac = $_POST['cedulaPac'];
 	$idmotivo = $_POST['motivo'];
 	$start = $_POST['start'];
   $end = $_POST['end'];
 	$idmedico = '12345';
-	$idsecretaria = '112233';
+	$idsecretaria = $idsecretaria;
 
 
 
@@ -27,8 +30,6 @@ include('conexion.php');
 		echo json_encode(array('estado'=>'OK','eventid'=>$idEvento));
 	}
 
-
-//header('Location: '.$_SERVER['HTTP_REFERER']);
 
 
 ?>

@@ -1,5 +1,11 @@
+<?php
+session_start();
+
+include('controlador/medicos.php');
+ ?>
+
 <nav class="navbar navbar-default  navbar-fixed-top">
-    <div class="container">
+    <div class="container navbar-all">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -9,7 +15,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.php"><i class="fa fa-home" aria-hidden="true"></i>
+      <a class="navbar-brand" href="main.php"><i class="fa fa-home" aria-hidden="true"></i>
           Agend Soft</a>
     </div>
 
@@ -32,12 +38,13 @@
                         <div class="tab-content">
                           <div class="tab-pane active">
                             <ul class="nav-list list-inline">
-                                <li id="icon-busca"><a href="#"><img class="img-med" height="80px;"src="img/medicoA.jpg" alt="">
-                                      <span>Medico A</span></a></li>
-                                <li id="icon-agrega"><a href="registropaciente.php"><img class="img-med" height="80px;"src="img/medicoB.jpg" alt="">
-                                      <span>Medico B</span></a></li>
-                                <li id="icon-editr"><a href="#"><img class="img-med" height="80px;"src="img/MedicoC.jpg" alt="">
-                                      <span>Medico C</span></a></li>
+                              <?php
+                                while ($medicos = mysqli_fetch_assoc($consultaMedicos))
+                                 {
+                                   echo'<li id="icon-busca"><a href="variableMedico?id_medico='.$medicos['doc_med'].'"><img class="img-med" height="80px;"src="'.$medicos['foto'].'" alt="">
+                                         <span>'.$medicos['nombres_med'].'</span></a></li>';
+                                  }
+                               ?>
                                 </ul>
                           </div>
 
@@ -71,13 +78,46 @@
                   <!-- Nav tabs -->
              </div>
        </li>
-        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user-circle-o" aria-hidden="true"></i>
-              Bienvenida, Jhoana <b class="caret"></b></a>
+        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <?php
+              if(isset($_SESSION['doc_sec']))
+                {
+                  echo '<i class="fa fa-user-circle-o" aria-hidden="true"></i>';
+                  echo ' '.$_SESSION['nombres_sec'];
+                }
+              else if(isset($_SESSION['doc_med']))
+                {
+                  echo '<i class="fa fa-user-md" aria-hidden="true"></i>';
+                  echo ' '.$_SESSION['nombres_med'];
+                }
+              elseif(isset($_SESSION['user_admin']))
+                {
+                  echo '<i class="fa fa-cogs" aria-hidden="true"></i>';
+                  echo ' '.$_SESSION['nombre_admin'];
+                }
+              ?>
+                  <b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li><a href="/user/preferences"><i class="icon-cog"></i> Preferences</a></li>
-                <li><a href="/help/support"><i class="icon-envelope"></i> Contact Support</a></li>
+                <li><a href="/user/preferences">
+                  <?php
+                  if(isset($_SESSION['doc_med']))
+                    {
+                      echo '<img class="img-fluid rounded-circle" style="border-radius:50%"src="'.$_SESSION['foto_med'].'" height="80px" width="80px">';
+                    }
+                   ?>
+                </a></li>
+                <li><a href="/help/support"><i class="icon-envelope"></i> Contacto o id</a></li>
                 <li class="divider"></li>
-                <li><a href="/auth/logout"><i class="icon-off"></i> Cerrar Sesión</a></li>
+                <?php
+                if(isset($_SESSION['user_admin']))
+                  {
+                echo '<li><a href=" logout.php"><i class="icon-off"></i>Agregar Médico</a></li>
+                      <li><a href=" logout.php"><i class="icon-off"></i>Agregar Secretaria</a></li>
+                      <li><a href=" logout.php"><i class="icon-off"></i>Cambiar Contraseña</a></li>';
+                  }
+                ?>
+                <li class="divider"></li>
+                <li><a href=" logout.php"><i class="icon-off"></i> Cerrar Sesión</a></li>
             </ul>
         </li>
      </ul>

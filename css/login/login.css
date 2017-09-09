@@ -1,0 +1,10 @@
+#pass-lost{
+  position: absolute;
+  bottom: 10px;
+  right: 67px;
+}
+.hr-blue{
+  transition: all .3s ease-out;
+  background-color: #5bc0de;
+  height: 2px;
+}
