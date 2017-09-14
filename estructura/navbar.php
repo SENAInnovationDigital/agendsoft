@@ -62,12 +62,9 @@ include('controlador/medicos.php');
                         <div class="tab-content">
                           <div class="tab-pane active">
                             <ul class="nav-list list-inline">
-                                <li id="icon-buscar"><a href="#"><i class="fa fa-user fa-5x" aria-hidden="true"></i>
-                                  <i class="fa fa-search fa-2x" aria-hidden="true"></i>
-                                      <span>Buscar</span></a></li>
                                 <li id="icon-agregar"><a href="registropaciente.php"><i class="fa fa-user-plus fa-5x" aria-hidden="true"></i>
                                       <span>Agregar</span></a></li>
-                                <li id="icon-editar"><a href="#"><i class="fa fa-user fa-5x" aria-hidden="true"></i>
+                                <li id="icon-editar"><a href="edicionpaciente.php"><i class="fa fa-user fa-5x" aria-hidden="true"></i>
                                   <i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
                                       <span>Editar/Borrar</span></a></li>
                                 </ul>
