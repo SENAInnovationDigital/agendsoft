@@ -27,6 +27,7 @@
               $_SESSION['doc_sec'] = $row['doc_sec'];
               $_SESSION['nombres_sec'] = $row['nombres_sec'];
               $_SESSION['apellidos_sec'] = $row['apellidos_sec'];
+              $_SESSION['tel_sec'] = $row['telefono'];
               $_SESSION['email_sec'] = $row['email_sec'];
               $_SESSION['user_sec'] = $row['user_sec'];
               echo "OK";
@@ -53,6 +54,7 @@
               exit();
             }
             elseif($hashedPass == true){
+              $_SESSION['id_med'] = $row['id_med'];
               $_SESSION['doc_med'] = $row['doc_med'];
               $_SESSION['nombres_med'] = $row['nombres_med'];
               $_SESSION['apellidos_med'] = $row['apellidos_med'];

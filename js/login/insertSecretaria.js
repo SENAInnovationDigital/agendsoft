@@ -10,7 +10,13 @@ $('#btn-reg-sec').click(function(e){
       user_sec = $('#user_sec').val();
       pass_sec = $('#pass_sec').val();
 
+      if(id_sec == "" || nombres_sec == "" || ape_sec == "" ||
+          tel == "" || email_sec =="" || user_sec == "" || pass_sec == ""){
 
+        toastr.error("Revisa que los campos estén llenos", "Hace falta algo");
+      }
+
+      else {
 
       datos = {"id": id_sec, "nom": nom_sec, "ape": ape_sec, "tel": tel,
               "email": email_sec, "user": user_sec, "pass":pass_sec}
@@ -21,19 +27,23 @@ $('#btn-reg-sec').click(function(e){
         data: datos,
 
         beforeSend: function(){
-          alert("Cargando");
+          $("#pre").addClass('fa fa-spinner fa-spin fa-fw');
         },
         success: function(html){
           if(html == 'OK'){
-            alert("bien");
+            $("#pre").removeClass('fa fa-spinner fa-spin fa-fw');
+            toastr.success("La secretaria fué agregado", "Agregado");
             document.getElementById("form-reg-sec").reset();
           }
           else{
-            alert("error interno");
+            $("#pre").removeClass('fa fa-spinner fa-spin fa-fw');
+            toastr.error("Ocurrió un error", "Error");
           }
         },
         error: function(){
-          alert("error externo");
+          $("#pre").removeClass('fa fa-spinner fa-spin fa-fw');
+          toastr.error("Fallas en la conexión local o remota", "Error");
         }
       });
+    }
 });

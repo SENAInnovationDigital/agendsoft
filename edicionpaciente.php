@@ -156,7 +156,7 @@ $object = new Crud();
   <script src="js/libraries/bootbox.min.js"></script>
   <script type="text/javascript" src="js/libraries/toastr.min.js"></script>
   <script src="js/libraries/jquery.loading.block.js"></script>
-  <script src="js/libraries/jquery.loading.block.js"></script>
+  <script src="js/validarEdicion.js"></script>
 
 
 
@@ -238,6 +238,7 @@ $(document).ready(function(){
     $.getScript("js/validarEdicion.js");
     var user_id = $(this).attr("id");
     var action = "Fetch Single Data";
+
     $.ajax({
       url:"controlador/actionEdicion.php",
       method:"POST",

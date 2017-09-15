@@ -5,13 +5,13 @@ include('../estructura/navbar.php');
 //echo $_POST['title'];
 	if(isset($_SESSION['doc_sec'])){
 		$idsecretaria = $_SESSION['doc_sec'];
-	}
+	}	
 
 	$cedulaPac = $_POST['cedulaPac'];
 	$idmotivo = $_POST['motivo'];
 	$start = $_POST['start'];
   $end = $_POST['end'];
-	$idmedico = '12345';
+	$idmedico = '3484565';
 	$idsecretaria = $idsecretaria;
 
 

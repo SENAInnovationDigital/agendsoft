@@ -3,7 +3,7 @@
   include('controlador/tratamientos.php');
   include('controlador/tratamientos2.php');
   include('controlador/medicoCita.php');
-  /*La consulta se desplazó para la linea 35, para que obtenga la sesión creada
+  /*La consulta de citas se desplazó para la linea 35, para que obtenga la sesión creada
     en el navbar y mayor legibilidad del codigo*/
   ?>
 
@@ -284,7 +284,16 @@
               },
 
               defaultDate: new Date(),
-              editable: true,
+              <?php
+              if(isset($_SESSION['doc_sec']))
+                {
+                echo 'editable: true,';
+              }
+              else {
+                echo 'editable: false,';
+              }
+
+              ?>
               eventLimit: true, // allow "more" link when too many events
               selectable: true,
               selectHelper: true,
@@ -391,7 +400,8 @@
                         });
                   });
 
-                    //-----GUARDADO  EDITADO eventClick
+
+                    //-----EDITADO eventClick
                     $('#guardaP').click(function(){
 
                       startDate2 = $('#ModalEdit #start').val();
@@ -609,9 +619,10 @@
                   event.id= response.eventid;
                   $.loadingBlockHide();
                   $('#calendar').fullCalendar('renderEvent', event);
-
                   $('#ModalAdd').modal('hide');
                   toastr.success("La cita fué agendada", "Guardado exitoso!");
+                  setTimeout('document.location.reload()',1500);
+
                 }
                 else{
                   toastr.error("Ocurrió un error al acceder", "No se Guardó");
@@ -642,8 +653,6 @@
                 Event[0] = id_cit;
                 Event[1] = start;
                 Event[2] = end;
-                var conf = 1;
-                var conf2 = 2;
 
                 $.ajax({
                   url: 'controlador/editarCita.php',
@@ -669,18 +678,45 @@
                       toastr.info("La cita fué actualizada", "Actualizado");
                     }else{
                       $.loadingBlockHide();
-                      toastr.error("Ocurrió un error", "Error");
+                      toastr.error("Ocurrió un error interno", "Error");
                       setTimeout('document.location.reload()',1500);
                     }
                   },
                   error: function(){
                       $.loadingBlockHide();
                       location.reload();
-                      toastr.error("Ocurrió un error", "Error");
+                      toastr.error("Ocurrió un error externo", "Error");
                       setTimeout('document.location.reload()',1500);
                   }
                 });
               }
+
+              $(".img-med").click(function(){
+                var id_medico = $(this).attr("id");
+                dato = {"id_medico": id_medico}
+                $.ajax({
+                    url: 'controlador/allCitas.php',
+                    type: 'POST',
+                    data: dato,
+
+                    beforeSend: function(){
+                      alert("cargando");
+                    },
+
+                    success: function(html){
+                      if(html == "OK")
+                      alert("todo bien");
+                      location.reload();
+
+
+                    },
+
+                    error: function(){
+                      alert("errorr");
+                    }
+
+                });
+              });
           });
         </script>
         <!--Finalización del codigo funcion del calendario-->
@@ -699,6 +735,7 @@
           <script src="js/libraries/jquery.loading.block.js"></script>
           <script src="js/ajaxnombrepaciente.js"></script>
           <script type="text/javascript" src="js/libraries/bootstrap-confirmation.js"></script>
+
 
     </body>
   </html>

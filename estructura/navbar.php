@@ -41,7 +41,7 @@ include('controlador/medicos.php');
                               <?php
                                 while ($medicos = mysqli_fetch_assoc($consultaMedicos))
                                  {
-                                   echo'<li id="icon-busca"><a href="variableMedico?id_medico='.$medicos['doc_med'].'"><img class="img-med" height="80px;"src="'.$medicos['foto'].'" alt="">
+                                   echo'<li><a class="huy"><img class="img-med" id="'.$medicos['id_med'].'"height="80px;"src="'.$medicos['foto'].'">
                                          <span>'.$medicos['nombres_med'].'</span></a></li>';
                                   }
                                ?>
@@ -94,27 +94,46 @@ include('controlador/medicos.php');
                 }
               ?>
                   <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-                <li><a href="/user/preferences">
+            <ul class="dropdown-menu" style="text-align:center">
+                <li><a>
                   <?php
-                  if(isset($_SESSION['doc_med']))
+                  if(isset($_SESSION['doc_sec']))
                     {
-                      echo '<img class="img-fluid rounded-circle" style="border-radius:50%"src="'.$_SESSION['foto_med'].'" height="80px" width="80px">';
+                      echo '<ul class="list-group">
+                              <li class="list-group-item">'.$_SESSION['nombres_sec'].' '.$_SESSION['apellidos_sec'].'</li>
+                              <li class="list-group-item">'.$_SESSION['doc_sec'].'</li>
+                              <li class="list-group-item"><i class="fa fa-mobile"></i>'.' '.$_SESSION['tel_sec'].'</li>
+                              <li class="list-group-item"><i class="fa fa-envelope-o"></i>'.' '.$_SESSION['email_sec'].'</li>
+                            </ul>';
+                    }
+                elseif(isset($_SESSION['doc_med']))
+                    {
+                      echo '<img class="img-fluid rounded-circle photo-perfil" src="'.$_SESSION['foto_med'].'">';
+                      echo '<ul class="list-group">
+                              <li class="list-group-item">'.$_SESSION['nombres_med'].' '.$_SESSION['apellidos_med'].'</li>
+                              <li class="list-group-item">'.$_SESSION['doc_med'].'</li>
+                              <li class="list-group-item">'.$_SESSION['especialidad_med'].'</li>
+                              <li class="list-group-item"><i class="fa fa-mobile"></i>'.' '.$_SESSION['telefono_med'].'</li>
+                              <li class="list-group-item"><i class="fa fa-envelope-o"></i>'.' '.$_SESSION['email_med'].'</li>
+                            </ul>';
                     }
                    ?>
                 </a></li>
-                <li><a href="/help/support"><i class="icon-envelope"></i> Contacto o id</a></li>
                 <li class="divider"></li>
                 <?php
                 if(isset($_SESSION['user_admin']))
                   {
-                echo '<li><a href=" logout.php"><i class="icon-off"></i>Agregar Médico</a></li>
-                      <li><a href=" logout.php"><i class="icon-off"></i>Agregar Secretaria</a></li>
-                      <li><a href=" logout.php"><i class="icon-off"></i>Cambiar Contraseña</a></li>';
+                    echo '<ul class="list-group">
+                            <li class="list-group-item">'.$_SESSION['nombre_admin'].'</li>
+                            <li class="list-group-item">'.$_SESSION['user_admin'].'</li>
+                            <li class="list-group-item"><a href="insertMedico.php"><i class="icon-off"></i>Agregar Médico</a></li>
+                            <li class="list-group-item"><a href="insertSecretaria.php"><i class="icon-off"></i>Agregar Secretaria</a></li>
+                            <li class="list-group-item"><a href="insertAdministrador.php"><i class="icon-off"></i>Agregar Administrador</a></li>
+                          </ul>';
                   }
                 ?>
                 <li class="divider"></li>
-                <li><a href=" logout.php"><i class="icon-off"></i> Cerrar Sesión</a></li>
+                <li><a href=" logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesión</a></li>
             </ul>
         </li>
      </ul>

@@ -119,6 +119,8 @@
 
   <script src="js/libraries/bootstrap.min.js"></script>
   <script src="js/login/insertMedico.js"></script>
+  <script src="js/libraries/toastr.min.js"></script>
+  
 
   </body>
 

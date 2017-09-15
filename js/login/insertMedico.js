@@ -10,19 +10,22 @@ $( "form#form-reg-med" ).submit(function(event) {
         contentType: false,
         processData: false,
         beforeSend: function(){
-          alert("Cargando");
+          $("#pre").addClass('fa fa-spinner fa-spin fa-fw');
         },
         success: function(html){
           if(html == 'OK'){
-            alert("bien");
+            $("#pre").removeClass('fa fa-spinner fa-spin fa-fw');
+            toastr.success("El Médico fué agregado", "Agregado");
             document.getElementById("form-reg-med").reset();
           }
           else{
-            alert("error interno");
+            $("#pre").removeClass('fa fa-spinner fa-spin fa-fw');
+            toastr.error("Ocurrió un error", "Error");
           }
         },
         error: function(){
-          alert("error externo");
+          $("#pre").removeClass('fa fa-spinner fa-spin fa-fw');
+          toastr.error("Fallas en la conexión local o remota", "Error");
         }
       });
       return false;
