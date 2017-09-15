@@ -180,7 +180,6 @@ $(document).ready(function(){
       },
       complete:function()
       {
-        document.getElementById("pag"+page).style.backgroundColor= "lightblue";
       }
     });
   }
@@ -235,24 +234,30 @@ $(document).ready(function(){
 
   //ACTUALIZAR PACIENTE
   $(document).on('click', '.update', function(){
+
     $.getScript("js/validarEdicion.js");
+
     var user_id = $(this).attr("id");
-    var action = "Fetch Single Data";
+    var action = "Fetch";
 
     $.ajax({
       url:"controlador/actionEdicion.php",
-      method:"POST",
+      type: "POST",
+      dataType: "json",
       data:{user_id:user_id, action:action},
-      dataType:"json",
 
       success:function(data)
       {
+        console.log(JSON.stringify(data));
+        alert(data.cedula);
+
         $('#ModalUserEdit').modal("show");
         $("#button_action").prop("disabled", true);
 
         $('#user_id_H').val(data.user_id_H);
         $('#cedula').val(data.cedula);
-        $('#nombres').val(data.nombres);
+
+        $('#nombres').val(data.nombre);
         $('#apellidos').val(data.apellidos);
         $('#sexo').val(data.sexo);
         $('#fechaNac').val(data.fechaNac);
@@ -270,6 +275,9 @@ $(document).ready(function(){
         $('#button_cancel').click(function(){
           $('#ModalUserEdit').modal("hide");
         });
+      },
+      error: function(){
+        alert("Hubo un error");
       },
     });
 
