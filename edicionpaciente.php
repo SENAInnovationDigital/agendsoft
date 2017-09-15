@@ -249,8 +249,7 @@ $(document).ready(function(){
       success:function(data)
       {
         console.log(JSON.stringify(data));
-        alert(data.cedula);
-
+        
         $('#ModalUserEdit').modal("show");
         $("#button_action").prop("disabled", true);
 
