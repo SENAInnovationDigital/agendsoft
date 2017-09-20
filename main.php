@@ -32,6 +32,7 @@
     <div class="fakeloader"></div>
 
     <!--Navbar-->
+
     <?php
     include("estructura/navbar.php");
     include("controlador/allCitas.php");
@@ -50,9 +51,7 @@
                 <i class="fa fa-user-md fa-3x" aria-hidden="true"></i>
                 <h4>
                   <?php
-
                   echo $row['nombres_med'];
-
                   ?></h4>
               </div>
             </div>
@@ -693,29 +692,10 @@
 
               $(".img-med").click(function(){
                 var id_medico = $(this).attr("id");
-                dato = {"id_medico": id_medico}
-                $.ajax({
-                    url: 'controlador/allCitas.php',
-                    type: 'POST',
-                    data: dato,
+                document.cookie ='variable='+id_medico+';  path=/';
+               setTimeout(document.location.reload(),100);
 
-                    beforeSend: function(){
-                      alert("cargando");
-                    },
-
-                    success: function(html){
-                      if(html == "OK")
-                      alert("todo bien");
-                      location.reload();
-
-
-                    },
-
-                    error: function(){
-                      alert("errorr");
-                    }
-
-                });
+                  //setTimeout(document.location.reload(),100);
               });
           });
         </script>

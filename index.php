@@ -53,7 +53,7 @@
                     <div class="form-group">
                       <input id="login-password" type="password" name="loginPassword" required="" class="input-material">
                       <label for="login-password" class="label-material">Contraseña</label>
-                    </div><button id="login-btn" class="btn btn-info">Entrar</button>
+
                     <!-- This should be submit button but I replaced it with <a> for demo purposes-->
                   </form><br><br>
 
@@ -64,6 +64,7 @@
                         <button type="button" class="btn btn-outline-info btn-sm" id="btn-admin">Administrador</button>
                         <small id="small-info">&#160;</small>
                         <hr id="hr-info">
+                          </div><button id="login-btn" class="btn btn-info">Entrar</button>
                     <a id="pass-lost"href="" class="forgot-pass">Olvidé mi contraseña</a><br><br>
                 </div>
               </div>

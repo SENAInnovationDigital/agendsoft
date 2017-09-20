@@ -10,7 +10,7 @@ $('#btn-reg-sec').click(function(e){
       user_sec = $('#user_sec').val();
       pass_sec = $('#pass_sec').val();
 
-      if(id_sec == "" || nombres_sec == "" || ape_sec == "" ||
+      if(id_sec == "" || nom_sec == "" || ape_sec == "" ||
           tel == "" || email_sec =="" || user_sec == "" || pass_sec == ""){
 
         toastr.error("Revisa que los campos estén llenos", "Hace falta algo");

@@ -133,7 +133,7 @@ include('controlador/medicos.php');
                   }
                 ?>
                 <li class="divider"></li>
-                <li><a href=" logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesión</a></li>
+                <li id="logout"><i class="fa fa-sign-out" aria-hidden="true" ></i> Cerrar Sesión</a></li>
             </ul>
         </li>
      </ul>
@@ -141,3 +141,12 @@ include('controlador/medicos.php');
   </div><!-- /.container-fluid -->
 </nav>
 </div>
+
+
+<script>
+  $('#logout').click(function() {
+document.cookie= "variable=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+window.location = "logout.php";
+
+})
+</script>
